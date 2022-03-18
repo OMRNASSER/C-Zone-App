@@ -13,13 +13,14 @@ class CustomTextForm extends StatelessWidget {
 
   final FormFieldSetter<String>? onSaved;
   final FormFieldValidator<String>? validator;
-
+   bool obsecure= false  ;
   CustomTextForm(
       {this.txt = "",
       this.hint = "",
       this.color = Colors.black,
         this.onSaved ,
         this.validator,
+        required this.obsecure,
       });
 
   @override
@@ -38,7 +39,9 @@ class CustomTextForm extends StatelessWidget {
             hintText: hint,
             hintStyle: TextStyle(color: Colors.grey.shade600, fontSize: 23),
             fillColor: Colors.white,
+
           ),
+          obscureText: obsecure,
         ),
       ],
     );

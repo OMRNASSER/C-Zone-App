@@ -29,10 +29,7 @@ class AuthViewModel extends GetxController {
 
   String? get user => _fireBaseUser.value?.email;
 
-  // final result = FacebookAuth.i.login(
-  //   permissions: [ "public_profile", "email"],
-  //
-  // );
+
 
   @override
   //** using onInit In first call for controller --
@@ -57,18 +54,30 @@ class AuthViewModel extends GetxController {
   }
 
   void GoogleSignInMethod() async {
+    // final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    // GoogleSignInAuthentication googleSignInAuthentication = await googleUser!
+    //     .authentication;
+    // final AuthCredential credential = GoogleAuthProvider.credential(
+    //   idToken: googleSignInAuthentication.idToken,
+    //   accessToken: googleSignInAuthentication.accessToken,
+    // );
+    // await _auth.signInWithCredential(credential);
+    // //print(googleUser);
+    // Get.offAll(Home_Screen());
     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-    GoogleSignInAuthentication googleSignInAuthentication = await googleUser!
-        .authentication;
+    print(googleUser);
+    GoogleSignInAuthentication googleSignInAuthentication =
+    await googleUser!.authentication;
+
     final AuthCredential credential = GoogleAuthProvider.credential(
       idToken: googleSignInAuthentication.idToken,
       accessToken: googleSignInAuthentication.accessToken,
     );
+
     await _auth.signInWithCredential(credential).then((user) {
       saveUser(user);
+      Get.offAll(Home_Screen());
     });
-    //print(googleUser);
-    Get.off(Home_Screen());
   }
 
 
@@ -86,8 +95,6 @@ class AuthViewModel extends GetxController {
         'The E-Mail that you enter Not Found',
         colorText: Colors.black,
         snackPosition: SnackPosition.BOTTOM,
-
-
       );
     }
   }
@@ -112,7 +119,14 @@ class AuthViewModel extends GetxController {
       );
     }
   }
-
+  // void facebookSignInMethod() async {
+  //   FacebookAuth.instance.webInitialize(
+  //     appId: "283368220550988",
+  //     cookie: true,
+  //     xfbml: true,
+  //     version: "v12.0",
+  //   );
+  // }
   void saveUser(UserCredential user) async {
     await FireStoreUser().addUserToFireStore(UserModel(
         userId: user.user?.uid, email: user.user?.email, name: name, pic: ""));

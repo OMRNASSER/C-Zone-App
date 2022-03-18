@@ -23,7 +23,7 @@ class LoginScreen extends GetWidget<AuthViewModel > {
         backgroundColor: Colors.white,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 30, right: 20, left: 20),
+        padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
         child: Form(
           key: _formkey ,
           child: Column(
@@ -50,15 +50,18 @@ class LoginScreen extends GetWidget<AuthViewModel > {
               //*** Email ***// by custom text form for any form in program
               CustomTextForm(
                 txt: "Email",
-                hint: "iammustafa@gmail.com",
+                hint: "example@abc.com",
                 validator: (value) {
-                  if(value == null ){
+                  if(value == null  ){
                     print("Error");
                   }
+
                 },
                 onSaved: (value) {
                   controller.email = value! ;
                 },
+                obsecure: false,
+
               ),
               SizedBox(
                 height: high,
@@ -71,10 +74,18 @@ class LoginScreen extends GetWidget<AuthViewModel > {
                   if (value == null ){
                     print("ERROR");
                   }
+                  // else if(value.length < 6 ){
+                  //   Get.snackbar(
+                  //       "Password is too short",
+                  //       "Enter Password Numbers > 6 " ,
+                  //       colorText: Colors.black
+                  //   );
+                  // }
                 },
                 onSaved: (value) {
                   controller.password = value!  ;
                 },
+                obsecure: true,
               ),
               SizedBox(height: high),
               CustomText(
@@ -114,6 +125,7 @@ class LoginScreen extends GetWidget<AuthViewModel > {
               SocialButton(imageName: "assets/images/Icon_Facebook.png",
                   name: "Sign In with Facebook",
                   onPressed: () {
+                    // controller.facebookSignInMethod();
 
 
                   }

@@ -63,6 +63,7 @@ class RegisterScreen extends GetWidget<AuthViewModel> {
                       print("Error");
                     }
                   },
+                  obsecure: false,
                 ),
                 SizedBox(
                   height: high,
@@ -70,7 +71,7 @@ class RegisterScreen extends GetWidget<AuthViewModel> {
                 //*** Email ***// by custom text form for any form in program
                 CustomTextForm(
                   txt: "Email",
-                  hint: "iammustafa@gmail.com",
+                  hint: "example@abc.com",
                   validator: (value) {
                     if (value == null) {
                       print("Error");
@@ -79,10 +80,12 @@ class RegisterScreen extends GetWidget<AuthViewModel> {
                   onSaved: (value) {
                     controller.email = value!;
                   },
+                  obsecure: false ,
                 ),
                 SizedBox(
                   height: high,
                 ),
+
                 //*** Password ***// Custom form for password
                 CustomTextForm(
                   txt: "Password",
@@ -95,6 +98,7 @@ class RegisterScreen extends GetWidget<AuthViewModel> {
                   onSaved: (value) {
                     controller.password = value!;
                   },
+                  obsecure: true,
                 ),
                 SizedBox(height: high),
 

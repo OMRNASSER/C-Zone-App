@@ -62,6 +62,12 @@ flutter:
   assets:
     - assets/images/Icon_Facebook.png
     - assets/images/icons8_Google_2.png
+    - assets/images/unknown.png
+    - assets/images/Camera_Image.png
+    - assets/images/CZone.png
+    - assets/images/suit.png
+    - assets/images/style2.png
+    - assets/images/Image.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
