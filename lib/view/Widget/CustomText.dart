@@ -10,13 +10,16 @@ class CustomText extends StatelessWidget {
   final Color color;
    final Alignment alignment ;
    final FontWeight fontWeight ;
-
+   final int? maxLine ;
+  final double? height ;
   CustomText({
     this.txt = '',
     this.fontSize = 16,
     this.color = Colors.black,
     this.alignment  = Alignment.topLeft,
     this.fontWeight = FontWeight.normal ,
+    this.maxLine ,
+    this.height,
   });
 
   @override
@@ -28,11 +31,15 @@ class CustomText extends StatelessWidget {
           color: color,
           fontSize: fontSize,
           fontWeight: fontWeight ,
+          height: height ,
+
 
         ),
+        maxLines: maxLine,
 
       ),
       alignment: alignment,
+
     );
   }
 }

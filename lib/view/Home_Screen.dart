@@ -7,6 +7,7 @@ import 'package:untitled/view/Widget/CustomText.dart';
 import 'package:untitled/view/auth/login_screen.dart';
 
 import '../core/view_model/control_view_model.dart';
+import 'details_view.dart';
 
 class Home_Screen extends StatelessWidget {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -14,6 +15,7 @@ class Home_Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeViewModel>(
+      init: Get.find<HomeViewModel>(),
       builder:(controller) => controller.loading.value ? Center(child: CircularProgressIndicator(color: primaryColor,)) :  Scaffold(
         body:ListView(
           children: [
@@ -122,35 +124,46 @@ class Home_Screen extends StatelessWidget {
   }
 
  Widget _listViewProducts() {
-    return Container(
-      height: 250,
-      child: ListView.separated(
-        itemCount: names.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context , index){
-          return Container(
-            width: MediaQuery.of(context).size.width * .4,
-            height: MediaQuery.of(context).size.width * .4 ,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              crossAxisAlignment:CrossAxisAlignment.start    ,
-              children: [
-                Image.asset("assets/images/mode.jpg", width:210 , height: 210,),
-                SizedBox(width: 20,),
-                CustomText(txt: "New Street Wear for Men" , alignment: Alignment.bottomLeft, fontSize: 10,),
-                CustomText(txt: "Nike" , color:Colors.grey, fontSize: 10,alignment: Alignment.bottomLeft,  ),
-                CustomText(txt: "EGP 150" , alignment: Alignment.bottomLeft,color: primaryColor,fontSize: 10, ),
+    return GetBuilder<HomeViewModel>(
+      builder: (controller) =>  Container(
+        height: 300,
+        child: ListView.separated(
+          itemCount: controller.productModel.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context , index){
+            return GestureDetector(
+              onTap:(){
+                Get.to(
+                    DetailsView(model: controller.productModel[index]),
+                );
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * .4 ,
+                height: MediaQuery.of(context).size.height * .5,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment:CrossAxisAlignment.start    ,
+                  children: [
+                    Image.network(controller.productModel[index].image.toString(),width: double.infinity, height:MediaQuery.of(context).size.height * .3,fit: BoxFit.cover,),
+                    SizedBox(width: 10,),
+                    Expanded(child: CustomText(txt: controller.productModel[index].name.toString() , alignment: Alignment.bottomLeft, fontSize: 17, maxLine: 1,)),
+                    Expanded(child: CustomText(txt: controller.productModel[index].brand.toString() , color:Colors.grey, fontSize: 15,alignment: Alignment.bottomLeft, maxLine: 1, )),
+                    Expanded(child: CustomText(txt: controller.productModel[index].price.toString()+" EGP" , alignment: Alignment.bottomLeft,color: primaryColor,fontSize: 17  ,maxLine: 1, )),
 
-              ],
+                  ],
 
-            ),
-          );
+                ),
+              ),
+            );
 
-        }, separatorBuilder: ( context,  index) => SizedBox(width: 20,),
+          }, separatorBuilder: ( context,  index) => SizedBox(width: 20,),
 
 
+
+
+        ),
 
       ),
 

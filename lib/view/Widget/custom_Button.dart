@@ -27,7 +27,7 @@ class CustomButton extends StatelessWidget {
         focusColor: primaryColor,
         child: CustomText(
             txt: txt,
-            fontSize: 20,
+            fontSize: 15,
             alignment: Alignment.center,
             color: Colors.white));
   }

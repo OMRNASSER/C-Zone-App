@@ -61,6 +61,14 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/fonts/
+
+
+
+  fonts:
+    - family: SourceSans
+      fonts:
+        - asset: assets/fonts/RegularFont.ttf
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

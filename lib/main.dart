@@ -22,6 +22,9 @@ class MyApp extends StatelessWidget {
 
     return GetMaterialApp(
       initialBinding: Binding(),
+      theme: ThemeData(
+        fontFamily: 'SourceSans',
+      ),
       debugShowCheckedModeBanner: false,
      home:Scaffold(
         backgroundColor: primaryColor,
@@ -38,6 +41,7 @@ class MyApp extends StatelessWidget {
       //     ],
       //   ),
      body:  SplashScreen(),
+
        
       ),
      );
