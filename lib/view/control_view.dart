@@ -18,6 +18,7 @@ class ControlView extends GetWidget<AuthViewModel>{
     return Obx((){
         return (Get.find<AuthViewModel>().user  != null )
             ? GetBuilder<ControlViewModel>(
+              init: ControlViewModel(),
               builder:(controller)=>Scaffold(
               body: controller.currentScreen,
               bottomNavigationBar: bottomNavigationBar(),
@@ -30,7 +31,7 @@ class ControlView extends GetWidget<AuthViewModel>{
   }
   Widget bottomNavigationBar(){
     return GetBuilder<ControlViewModel>(
-      init: ControlViewModel(),
+     init: Get.find<ControlViewModel>(),
       builder: (controller) => BottomNavigationBar(
         currentIndex: controller.navigatorValue,
         onTap: (index) {
@@ -56,7 +57,7 @@ class ControlView extends GetWidget<AuthViewModel>{
             label: "",
             icon: Padding(
               padding: const EdgeInsets.only(top: 10.0),
-              child: Image.asset("assets/images/Icon_Cart-mdpi.png"),
+              child: Image.asset("assets/images/Icon_Cart.png"),
             ),
           ),
           BottomNavigationBarItem(
@@ -67,7 +68,7 @@ class ControlView extends GetWidget<AuthViewModel>{
             label: "",
             icon: Padding(
               padding: const EdgeInsets.only(top: 10.0),
-              child: Image.asset("assets/images/Path 6.png"),
+              child: Image.asset("assets/images/Icon_User.png"),
             ),
           ),
 

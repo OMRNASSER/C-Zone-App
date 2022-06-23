@@ -4,11 +4,13 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:untitled/core/view_model/home_view_model.dart';
 import 'package:untitled/helper/extension.dart';
+import 'package:untitled/model/cart_product_model.dart';
 import 'package:untitled/model/product_model.dart';
 import 'package:untitled/view/Widget/CustomText.dart';
 import 'package:untitled/view/Widget/custom_Button.dart';
 
 import '../Constant.dart';
+import '../core/view_model/cart_view_model.dart';
 import 'Home_Screen.dart';
 
 class DetailsView extends StatelessWidget {
@@ -132,11 +134,25 @@ class DetailsView extends StatelessWidget {
                                CustomText(txt: 'EGP ' + model.price.toString(), color: primaryColor, fontSize: 20, fontWeight: FontWeight.bold,)
                              ],
                            ),
-                           Container(
-                             padding: EdgeInsets.all(20.0),
-                             width:230  ,
-                               height: 90,
-                               child: CustomButton(txt: 'ADD'   , color: primaryColor , onPressed: (){})
+                           GetBuilder<CartViewModel>(
+                             init: Get.find<CartViewModel>(),
+                             builder:(controller) =>  Container(
+                               padding: EdgeInsets.all(20.0),
+                               width:220  ,
+                                 height: 100,
+                                 child: CustomButton(
+                                     txt: 'ADD'   ,
+                                     color: primaryColor ,
+                                     onPressed: ()=>controller.addProduct(
+                                       CartProductModel(
+                                         name: model.name ,
+                                         image: model.image ,
+                                         price: model.price ,
+                                         quantity: 1 ,
+                                         productId : model.productId,
+                                       )
+                                     )),
+                             ),
                            ),
 
                          ],),

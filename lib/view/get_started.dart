@@ -9,7 +9,7 @@ import 'package:untitled/view/control_view.dart';
 class SplashScreenState  extends State<SplashScreen> {
   void initState(){
     super.initState();
-    Timer(Duration(seconds: 2),(){
+    Timer(Duration(seconds: 1),(){
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (_)=>ControlView()));
     });
@@ -19,7 +19,7 @@ class SplashScreenState  extends State<SplashScreen> {
   Widget build(BuildContext context) {
     var image = Image.asset( "assets/images/unknown.png" , width:350 ,height: 100, );
     return Scaffold(
-      backgroundColor: splashScreenColor,
+      backgroundColor: primaryColor,
       body: Center(
         child: Column(
           children: [
@@ -28,18 +28,10 @@ class SplashScreenState  extends State<SplashScreen> {
             SizedBox(height: 20),
             Center(
               child: CircularProgressIndicator(
-                color: Colors.amber[300] ,
-
-
-
-
-
+                color: Colors.greenAccent[300] ,
               ),
             ),
-
           ],
-
-
         ),
 
       ),

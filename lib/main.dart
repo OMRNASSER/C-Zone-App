@@ -9,11 +9,13 @@ import 'package:untitled/view/control_view.dart';
 import 'package:untitled/view/get_started.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'core/view_model/cart_view_model.dart';
 import 'helper/Binding.dart';
 //async for initialize in firebase
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp() ;
+  Get.put(CartViewModel());
   runApp( MyApp());
 }
 class MyApp extends StatelessWidget {

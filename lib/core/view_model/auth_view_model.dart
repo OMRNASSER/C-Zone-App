@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:untitled/helper/local_storage_data.dart';
 import 'package:untitled/view/Home_Screen.dart';
 import 'package:untitled/view/auth/login_screen.dart';
+import 'package:untitled/view/control_view.dart';
 
 import '../../model/user_model.dart';
 import '../services/firestore_user.dart';
@@ -20,7 +22,7 @@ class AuthViewModel extends GetxController {
 // *** We Use Sign in GetXController because we need to separate data and ui
   GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   FirebaseAuth _auth = FirebaseAuth.instance;
-
+  final LocalStorageData localStorageData = Get.find();
 
   String email = '',
       password = '',
@@ -76,7 +78,7 @@ class AuthViewModel extends GetxController {
 
     await _auth.signInWithCredential(credential).then((user) {
       saveUser(user);
-      Get.offAll(Home_Screen());
+      Get.offAll(ControlView());
     });
   }
 
@@ -84,11 +86,13 @@ class AuthViewModel extends GetxController {
   void signInEmailAndPassword() async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password)
-          .then((user) {
-            saveUser(user);
+          .then((value) async {
+            await FireStoreUser().getCurrentUser( value.user!.uid).then(( dynamic value){
+              setUser(UserModel.fromJson(value.data())) ;
+            });
       //  print(value);
       });
-      Get.offAll(Home_Screen());
+      Get.offAll(ControlView());
     } catch (e) {
       Get.snackbar(
         'Error login account',
@@ -107,7 +111,7 @@ class AuthViewModel extends GetxController {
       });
 
 
-      Get.offAll(Home_Screen());
+      Get.offAll(ControlView());
     } catch (e) {
       Get.snackbar(
         'Error login account',
@@ -128,8 +132,17 @@ class AuthViewModel extends GetxController {
   //   );
   // }
   void saveUser(UserCredential user) async {
-    await FireStoreUser().addUserToFireStore(UserModel(
-        userId: user.user?.uid, email: user.user?.email, name: name, pic: ""));
+    UserModel userModel =UserModel(
+        userId: user.user?.uid,
+        email: user.user?.email,
+        name: name, pic: ""
+    ) ;
+    await FireStoreUser().addUserToFireStore(userModel);
+    setUser(userModel) ;
+  }
+  void setUser (UserModel userModel) async {
+    await localStorageData.setUSer(userModel) ;
+
   }
 
 }

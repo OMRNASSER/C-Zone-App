@@ -36,92 +36,94 @@ class RegisterScreen extends GetWidget<AuthViewModel> {
           padding: const EdgeInsets.only(top: 30, right: 20, left: 20),
           child: Form(
             key: _formkey,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    //*** Custom Text for any text in Project ***//
-                    CustomText(
-                        txt: "Sign Up", color: Colors.black, fontSize: 30),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      //*** Custom Text for any text in Project ***//
+                      CustomText(
+                          txt: "Sign Up", color: Colors.black, fontSize: 30),
 
-                  ],
-                ),
-                SizedBox(height: high),
-                SizedBox(
-                  height: high,
-                ),
-                CustomTextForm(
-                  txt: "Name",
-                  color: Colors.grey,
-                  hint: "Mustafa Kenawy",
-                  onSaved: (value){
-                    controller.name = value! ;
-                  },
-                  validator: (value) {
-                    if (value == null) {
-                      print("Error");
-                    }
-                  },
-                  obsecure: false,
-                ),
-                SizedBox(
-                  height: high,
-                ),
-                //*** Email ***// by custom text form for any form in program
-                CustomTextForm(
-                  txt: "Email",
-                  hint: "example@abc.com",
-                  validator: (value) {
-                    if (value == null) {
-                      print("Error");
-                    }
-                  },
-                  onSaved: (value) {
-                    controller.email = value!;
-                  },
-                  obsecure: false ,
-                ),
-                SizedBox(
-                  height: high,
-                ),
+                    ],
+                  ),
+                  SizedBox(height: high),
+                  SizedBox(
+                    height: high,
+                  ),
+                  CustomTextForm(
+                    txt: "Name",
+                    color: Colors.grey,
+                    hint: "Mustafa Kenawy",
+                    onSaved: (value){
+                      controller.name = value! ;
+                    },
+                    validator: (value) {
+                      if (value == null) {
+                        print("Error");
+                      }
+                    },
+                    obsecure: false,
+                  ),
+                  SizedBox(
+                    height: high,
+                  ),
+                  //*** Email ***// by custom text form for any form in program
+                  CustomTextForm(
+                    txt: "Email",
+                    hint: "example@abc.com",
+                    validator: (value) {
+                      if (value == null) {
+                        print("Error");
+                      }
+                    },
+                    onSaved: (value) {
+                      controller.email = value!;
+                    },
+                    obsecure: false ,
+                  ),
+                  SizedBox(
+                    height: high,
+                  ),
 
-                //*** Password ***// Custom form for password
-                CustomTextForm(
-                  txt: "Password",
-                  hint: "***************",
-                  validator: (value) {
-                    if (value == null) {
-                      print("ERROR");
-                    }
-                  },
-                  onSaved: (value) {
-                    controller.password = value!;
-                  },
-                  obsecure: true,
-                ),
-                SizedBox(height: high),
+                  //*** Password ***// Custom form for password
+                  CustomTextForm(
+                    txt: "Password",
+                    hint: "***************",
+                    validator: (value) {
+                      if (value == null) {
+                        print("ERROR");
+                      }
+                    },
+                    onSaved: (value) {
+                      controller.password = value!;
+                    },
+                    obsecure: true,
+                  ),
+                  SizedBox(height: high),
 
-                SizedBox(height: 10),
-                CustomButton(
-                  onPressed: () {
-                    //** flutter pure without Get-X **//
-                    // Navigator.push(context ,MaterialPageRoute(
-                    //     builder:(context)=> SecondScreen(),
-                    // ),);
-                    //** flutter with Get-x easy to go in within screens **//
-                    // Get.to(SecondScreen());
-                    _formkey.currentState?.save();
-                    if (_formkey.currentState?.validate() != null) {
-                      controller.signUpEmailAndPassword();
-                    }
-                  },
-                  txt: "SIGN UP",
-                  color: primaryColor,
-                ),
+                  SizedBox(height: 10),
+                  CustomButton(
+                    onPressed: () {
+                      //** flutter pure without Get-X **//
+                      // Navigator.push(context ,MaterialPageRoute(
+                      //     builder:(context)=> SecondScreen(),
+                      // ),);
+                      //** flutter with Get-x easy to go in within screens **//
+                      // Get.to(SecondScreen());
+                      _formkey.currentState?.save();
+                      if (_formkey.currentState?.validate() != null) {
+                        controller.signUpEmailAndPassword();
+                      }
+                    },
+                    txt: "SIGN UP",
+                    color: primaryColor,
+                  ),
 
 
-              ],
+                ],
+              ),
             ),
           ),
         ),
