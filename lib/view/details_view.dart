@@ -8,6 +8,7 @@ import 'package:untitled/model/cart_product_model.dart';
 import 'package:untitled/model/product_model.dart';
 import 'package:untitled/view/Widget/CustomText.dart';
 import 'package:untitled/view/Widget/custom_Button.dart';
+import 'package:untitled/view/control_view.dart';
 
 import '../Constant.dart';
 import '../core/view_model/cart_view_model.dart';
@@ -40,21 +41,21 @@ class DetailsView extends StatelessWidget {
 
 
                   IconButton(onPressed: (){
-                    Get.to(Home_Screen());
+                  Get.offAll(ControlView()) ;
 
                   }, icon:Icon(Icons.arrow_back_ios,),
                     alignment: Alignment.centerLeft,
                   ),
                   SizedBox(width: 200,),
 
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(onPressed: (){
-
-                    }, icon:Icon(Icons.stars,size:35 ,),
-                      alignment: Alignment.centerRight,
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.centerRight,
+                  //   child: IconButton(onPressed: (){
+                  //
+                  //   }, icon:Icon(Icons.stars,size:35 ,),
+                  //     alignment: Alignment.centerRight,
+                  //   ),
+                  // ),
                 ],
               ),
               SizedBox(height: 10,),
