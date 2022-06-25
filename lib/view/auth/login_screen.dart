@@ -9,6 +9,8 @@ import 'package:untitled/view/Widget/custom_social_button.dart';
 import 'package:untitled/view/Widget/custom_text_form_field.dart';
 import 'package:untitled/view/auth/register_view.dart';
 
+import '../admin_view.dart';
+
 
 class LoginScreen extends GetWidget<AuthViewModel > {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
@@ -70,7 +72,7 @@ class LoginScreen extends GetWidget<AuthViewModel > {
                 //*** Password ***// Custom form for password
                 CustomTextForm(
                   txt: "Password",
-                  hint: "***************",
+                  hint: "*********",
                   validator: (value) {
                     if (value == null ){
                       print("ERROR");
@@ -108,13 +110,18 @@ class LoginScreen extends GetWidget<AuthViewModel > {
                     if(_formkey.currentState?.validate() != null ) {
                       controller.signInEmailAndPassword();
                     }
-
-
-
                   },
                   txt: "SIGN IN",
                   color: primaryColor,
                 ),
+                SizedBox(height: 10.0,),
+                GestureDetector(
+                    onTap: (){
+                      Get.to(AdminView());
+                    },
+                    child: CustomText(txt: "Sign In as Admin", fontSize: 17, color: primaryColor)),
+
+
                 SizedBox(height: 10),
                 CustomText(
                   txt: "-OR-",

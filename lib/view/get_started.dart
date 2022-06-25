@@ -28,7 +28,7 @@ class SplashScreenState  extends State<SplashScreen> {
             SizedBox(height: 20),
             Center(
               child: CircularProgressIndicator(
-                color: Colors.greenAccent[300] ,
+                color: Colors.white ,
               ),
             ),
           ],

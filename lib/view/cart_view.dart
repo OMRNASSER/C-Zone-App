@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:untitled/Constant.dart';
 import 'package:untitled/core/view_model/cart_view_model.dart';
 import 'package:untitled/view/Widget/custom_Button.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:untitled/view/checkout/checkout_view.dart';
 
 import 'Widget/CustomText.dart';
 
@@ -15,13 +17,20 @@ class CartView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-
-        child: Column(
+        child: GetBuilder<CartViewModel>(
+      init:Get.find<CartViewModel>() ,
+      builder: (controller)=> controller.cartProductModel.length == 0 ?
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset("assets/images/cartEmpty.svg" ,width: 200, height: 200,),
+            SizedBox(height: 20.0,),
+            CustomText(txt: "Cart Empty",fontSize: 30, alignment: Alignment.topCenter, color: Colors.grey,)
+          ],
+        ): Column(
           children: [
             Expanded(
-              child: GetBuilder<CartViewModel>(
-                init:Get.find<CartViewModel>() ,
-                builder: (controller)=>Container(
+               child :Container(
                   child: ListView.separated(
                     itemBuilder: (context ,index){
                       return Container(
@@ -91,7 +100,7 @@ class CartView extends StatelessWidget {
 
                   ),
                 ),
-              ),
+
             ),
             Container(
 
@@ -120,7 +129,12 @@ class CartView extends StatelessWidget {
                   Container(
                     height: 60,
                       width: 180,
-                      child: CustomButton(txt: "CHECKOUT", color: primaryColor ,onPressed: (){},  )),
+                      child: CustomButton(txt: "CHECKOUT", color: primaryColor ,onPressed: (){
+
+
+
+
+                      },  )),
 
                 ],
               ),
@@ -130,6 +144,7 @@ class CartView extends StatelessWidget {
           ],
         ),
       ),
-    ) ;
+      )
+    );
   }
 }

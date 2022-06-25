@@ -44,6 +44,8 @@ dependencies:
   sqflite: ^2.0.2+1
   path: ^1.8.0
   shared_preferences: ^2.0.15
+  flutter_svg: ^1.0.3
+  status_change: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -29,7 +29,7 @@ class AuthViewModel extends GetxController {
       name = '';
   Rxn<User>_fireBaseUser = Rxn<User>();
 
-  String? get user => _fireBaseUser.value?.email;
+   String? get user => _fireBaseUser.value?.email;
 
 
 
@@ -39,6 +39,10 @@ class AuthViewModel extends GetxController {
     // TODO: implement onInit
     super.onInit();
     _fireBaseUser.bindStream(_auth.authStateChanges());
+    if(_auth.currentUser != null) {
+      getCurrentUserData(_auth.currentUser!.uid);
+
+    }
   }
 
   @override
@@ -87,9 +91,7 @@ class AuthViewModel extends GetxController {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password)
           .then((value) async {
-            await FireStoreUser().getCurrentUser( value.user!.uid).then(( dynamic value){
-              setUser(UserModel.fromJson(value.data())) ;
-            });
+           getCurrentUserData(value.user!.uid);
       //  print(value);
       });
       Get.offAll(ControlView());
@@ -142,6 +144,12 @@ class AuthViewModel extends GetxController {
   }
   void setUser (UserModel userModel) async {
     await localStorageData.setUSer(userModel) ;
+
+  }
+  void getCurrentUserData(String uid) async {
+    await FireStoreUser().getCurrentUser(uid).then(( dynamic value){
+      setUser(UserModel.fromJson(value.data())) ;
+    });
 
   }
 
