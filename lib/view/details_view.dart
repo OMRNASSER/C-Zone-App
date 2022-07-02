@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../Constant.dart';
 
+// ignore: must_be_immutable
 class DetailsView extends StatelessWidget {
   ProductModel model;
   DetailsView({required this.model});
