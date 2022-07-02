@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
-final tableCartProduct = 'cartProduct' ;
-final String columnName  = 'name';
-final String columnImage  = 'image';
-final String columnQuantity = 'quantity';
-final String columnPrice = 'price';
-final String columnProductId = 'productId';
+const tableCartProduct = 'cartProduct';
+const String columnName = 'name';
+const String columnImage = 'image';
+const String columnQuantity = 'quantity';
+const String columnPrice = 'price';
+const String columnProductId = 'productId';
 
-const CASHED_USER_DATA = 'CASHED_USER_DATA' ;
+const CASHED_USER_DATA = 'CASHED_USER_DATA';
 const primaryColor = Color.fromRGBO(0, 197, 105, 100);
 const splashScreenColor = Color.fromRGBO(240, 190, 150, 20);
-
 
 const kTileHeight = 50.0;
 const inProgressColor = Colors.black87;

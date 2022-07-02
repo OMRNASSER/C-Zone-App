@@ -8,7 +8,7 @@ class AddAddress extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            child: Text(
+            child: const Text(
               "Add your Address",
               style: TextStyle(fontSize: 30),
             ),

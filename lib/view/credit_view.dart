@@ -11,7 +11,7 @@ class CreditCardsView extends StatelessWidget {
         elevation: 1.0,
         toolbarHeight:MediaQuery.of(context).size.height * .25 ,
         leadingWidth: 100.0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: true ,
         shape:const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -19,31 +19,31 @@ class CreditCardsView extends StatelessWidget {
           ),
         ),
 
-        title: CustomText(txt:"My Cards" , fontSize: 27.0, fontWeight: FontWeight.bold,  family:'Lato',),
+        title: const CustomText(txt:"My Cards" , fontSize: 27.0, fontWeight: FontWeight.bold,  family:'Lato',),
         backgroundColor: Colors.white ,
 
       ),
 
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(10.0),
          child:  Column(
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children:  <Widget>[
               _buildCreditCard(
-                color: Color(0xFF090943) ,
+                color: const Color(0xFF090943) ,
                 cardHodler: "OMAR ABDELNASSER AHMED",
                 cardExpiration: "10/23" ,
                 cardNumber: "5123 0089 XXXX 4569" ,
               ),
               _buildCreditCard(
-                color: Color(0xFF000000) ,
+                color: const Color(0xFF000000) ,
                 cardHodler: "HAMZA ABDELRAHMAN MOHAMED",
                 cardExpiration: "05/24" ,
                 cardNumber: "5614 0064 XXXX 5689" ,
               ),
-              _buildAddCardButton(icon: Icon(Icons.add , color: Colors.white,) , color: Color(0xFF081603)),
+              _buildAddCardButton(icon: const Icon(Icons.add , color: Colors.white,) , color: const Color(0xFF081603)),
 
             ],
 
@@ -96,7 +96,7 @@ class CreditCardsView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             _buildLogoBlock(),
-            CustomText(txt: "$cardNumber" , fontSize: 21.0 , color: Colors.white , family: 'CourierRrime',  ),
+            CustomText(txt: cardNumber , fontSize: 21.0 , color: Colors.white , family: 'CourierRrime',  ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

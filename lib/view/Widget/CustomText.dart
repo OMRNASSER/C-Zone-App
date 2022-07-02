@@ -8,18 +8,20 @@ class CustomText extends StatelessWidget {
   final double fontSize;
 
   final Color color;
-   final Alignment alignment ;
-   final FontWeight fontWeight ;
-   final int? maxLine ;
-  final double? height ;
-  CustomText({
+  final Alignment alignment;
+  final FontWeight fontWeight;
+  final int? maxLine;
+  final double? height;
+  final String? family;
+  const CustomText({
     this.txt = '',
     this.fontSize = 16,
     this.color = Colors.black,
-    this.alignment  = Alignment.topLeft,
-    this.fontWeight = FontWeight.normal ,
-    this.maxLine ,
+    this.alignment = Alignment.topLeft,
+    this.fontWeight = FontWeight.normal,
+    this.maxLine,
     this.height,
+    this.family,
   });
 
   @override
@@ -27,19 +29,10 @@ class CustomText extends StatelessWidget {
     return Container(
       child: Text(
         txt,
-        style: TextStyle(
-          color: color,
-          fontSize: fontSize,
-          fontWeight: fontWeight ,
-          height: height ,
-
-
-        ),
+        style: TextStyle(color: color, fontSize: fontSize, fontWeight: fontWeight, height: height, fontFamily: family,),
         maxLines: maxLine,
-
       ),
       alignment: alignment,
-
     );
   }
 }

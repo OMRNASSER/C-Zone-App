@@ -1,174 +1,260 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:untitled/core/view_model/home_view_model.dart';
+import 'package:untitled/view/category_item_home.dart';
+import 'package:untitled/view/Widget/CustomText.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:untitled/Constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:untitled/Constant.dart';
-import 'package:untitled/core/view_model/home_view_model.dart';
-import 'package:untitled/view/Widget/CustomText.dart';
-import 'package:untitled/view/auth/login_screen.dart';
-
-import '../core/view_model/control_view_model.dart';
+import 'package:untitled/view/flash_animation.dart';
 import 'details_view.dart';
 
 class Home_Screen extends StatelessWidget {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  final List<String> names = <String>["Men","Girls","S","S","S"];
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final List<String> names = <String>[
+    "Men",
+    "Girls",
+    "S",
+    "S",
+    "S",
+  ];
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeViewModel>(
       init: Get.find<HomeViewModel>(),
-      builder:(controller) => controller.loading.value ? Center(child: CircularProgressIndicator(color: primaryColor,)) :  Scaffold(
-        body:ListView(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(0),
+      builder: (controller) => controller.loading.value
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: primaryColor,
               ),
-              padding: EdgeInsets.only(top:30 ,left: 20 , right:20),
-              child: Column(
+            )
+          : Scaffold(
+              body: ListView(
                 children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(0),
+                    ),
+                    padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+                    child: Column(
+                      children: [
+                        _searchTextFormField(),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        const CustomText(
+                          txt: "Categories",
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        _listViewCategory(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            FlashAnimation(
+                              duration: const Duration(seconds: 3),
+                              infinite: true,
+                              animate: true,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100.0),
+                                  color: Colors.deepPurpleAccent,
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      Colors.deepOrange,
+                                      Colors.deepPurpleAccent,
+                                    ],
+                                    begin: FractionalOffset(0.0, 0.0),
+                                    end: FractionalOffset(1.0, 0.0),
+                                    stops: [
+                                      0.0,
+                                      1.0,
+                                    ],
+                                    tileMode: TileMode.clamp,
+                                  ),
+                                ),
+                                child: Text(
+                                  'Best Selling',
+                                  style: Theme.of(context).textTheme.bodyText1!.merge(
+                                        const TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white),
+                                      ),
+                                ),
+                              ),
+                            ),
+                            const CustomText(txt: "See all", fontSize: 15),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        _listViewProducts(),
 
-                     _searchTextFormField(),
-                      SizedBox(height: 40,),
-                      CustomText(txt:"Categories", fontWeight: FontWeight.bold,),
-                      SizedBox(height: 20,),
-                      _listViewCategory(names),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(txt : "Best Selling" , fontSize: 18, fontWeight: FontWeight.bold,),
-
-                          CustomText(txt : "See all" , fontSize: 15),
-
-                        ],
-
-                      ),
-                      SizedBox(height: 10,),
-                      _listViewProducts(),
-
-              //log out
-              //         Center(child:
-              //           FlatButton(
-              //             onPressed: () {
-              //             _auth.signOut();
-              //             Get.offAll(LoginScreen());
-              //           },
-              //             child:Text("Log Out"),
-              //       ),
-              //       ),
-
-                  ],
-                ),
+                        //log out
+                        //         Center(child:
+                        //           FlatButton(
+                        //             onPressed: () {
+                        //             _auth.signOut();
+                        //             Get.offAll(LoginScreen());
+                        //           },
+                        //             child:Text("Log Out"),
+                        //       ),
+                        //       ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-          ],
-
-        ),
-      ),
+            ),
     );
-
   }
-  Widget _searchTextFormField(){
-   return Container(
+
+  Widget _searchTextFormField() {
+    return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.grey.shade200,
       ),
-
       child: TextFormField(
-        decoration: InputDecoration(
-          border: InputBorder.none ,
-          prefixIcon: Icon(Icons.search , color: Colors.black , ),
-          iconColor: Colors.black ,
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          hintText: 'Search something',
+          prefixIcon: Icon(
+            Icons.search,
+            color: Colors.black,
+          ),
+          iconColor: Colors.black,
         ),
       ),
     );
   }
-  Widget _listViewCategory( List names){
+
+  Widget _listViewCategory() {
     return GetBuilder<HomeViewModel>(
-      builder: (controller) =>  Container(
+      builder: (controller) => SizedBox(
         height: 100,
         child: ListView.separated(
-
           itemCount: controller.categoryModel.length,
           scrollDirection: Axis.horizontal,
-          itemBuilder: (context , index){
-            return Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Colors.grey.shade100,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryItemHomeWidget(categoryModel: controller.categoryModel.elementAt(index)))),
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.grey.shade100,
+                    ),
+                    height: 60,
+                    width: 60,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Image.network(
+                        controller.categoryModel[index].image.toString(),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                  height: 60,
-                  width: 60,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Image.network(controller.categoryModel[index].image.toString()),
+                  const SizedBox(
+                    width: 20,
+                    height: 5.0,
                   ),
-
-
-                ),
-                SizedBox(width: 20,height: 5.0,),
-                CustomText(txt: controller.categoryModel[index].name.toString(),fontSize: 12,),
-              ],
-
+                  CustomText(
+                    txt: controller.categoryModel[index].name.toString(),
+                    fontSize: 12,
+                  ),
+                ],
+              ),
             );
-
-          }, separatorBuilder: ( context,  index) => SizedBox(width: 20,),
-
-
-
+          },
+          separatorBuilder: (context, index) => const SizedBox(
+            width: 20,
+          ),
         ),
-
       ),
-    ) ;
+    );
   }
 
- Widget _listViewProducts() {
+  Widget _listViewProducts() {
     return GetBuilder<HomeViewModel>(
-      builder: (controller) =>  Container(
-        height: 300,
+      builder: (controller) => SizedBox(
+        height: 330,
         child: ListView.separated(
+          separatorBuilder: (context, index) => const SizedBox(width: 20),
           itemCount: controller.productModel.length,
           scrollDirection: Axis.horizontal,
-          itemBuilder: (context , index){
+          itemBuilder: (context, index) {
             return GestureDetector(
-              onTap:(){
-                Get.to(
-                    DetailsView(model: controller.productModel[index]),
-                );
+              onTap: () {
+                Get.to(DetailsView(model: controller.productModel[index]));
               },
               child: Container(
-                width: MediaQuery.of(context).size.width * .4 ,
-                height: MediaQuery.of(context).size.height * .5,
+                width:200,
+                height:330,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
-                  crossAxisAlignment:CrossAxisAlignment.start    ,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.network(controller.productModel[index].image.toString(),width: double.infinity, height:MediaQuery.of(context).size.height * .3,fit: BoxFit.cover,),
-                    SizedBox(width: 10,),
-                    Expanded(child: CustomText(txt: controller.productModel[index].name.toString() , alignment: Alignment.bottomLeft, fontSize: 17, maxLine: 1,)),
-                    Expanded(child: CustomText(txt: controller.productModel[index].brand.toString() , color:Colors.grey, fontSize: 15,alignment: Alignment.bottomLeft, maxLine: 1, )),
-                    Expanded(child: CustomText(txt: controller.productModel[index].price.toString()+" EGP" , alignment: Alignment.bottomLeft,color: primaryColor,fontSize: 17  ,maxLine: 1, )),
-
+                    CarouselSlider.builder(
+                      itemCount: controller.productModel[index].imagesList!.length,
+                      options: CarouselOptions(
+                        onPageChanged: (int index, CarouselPageChangedReason changedReason) {},
+                        scrollPhysics: const NeverScrollableScrollPhysics(),
+                        viewportFraction: 1.0,
+                        autoPlay: true,
+                        height: 250,
+                      ),
+                      itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
+                        String string = controller.productModel[index].imagesList!.elementAt(itemIndex);
+                        return Container(
+                          height: 250,
+                          margin: const EdgeInsets.only(right: 4.0),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                string,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    CustomText(
+                      txt: controller.productModel[index].name.toString(),
+                      alignment: Alignment.bottomLeft,
+                      fontSize: 17,
+                      maxLine: 1,
+                    ),
+                    const SizedBox(height: 4),
+                    CustomText(
+                      txt: controller.productModel[index].brand.toString(),
+                      color: Colors.grey,
+                      fontSize: 15,
+                      alignment: Alignment.bottomLeft,
+                      maxLine: 1,
+                    ),
+                    const SizedBox(height: 4),
+                    CustomText(
+                      txt: controller.productModel[index].price.toString() + " EGP",
+                      alignment: Alignment.bottomLeft,
+                      color: primaryColor,
+                      fontSize: 17,
+                      maxLine: 1,
+                    ),
                   ],
-
                 ),
               ),
             );
-
-          }, separatorBuilder: ( context,  index) => SizedBox(width: 20,),
-
-
-
-
+          },
         ),
-
       ),
-
     );
- }
-
-
+  }
 }

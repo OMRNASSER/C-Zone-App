@@ -1,46 +1,39 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:untitled/core/view_model/auth_view_model.dart';
-import 'package:untitled/view/Home_Screen.dart';
 import 'package:untitled/view/auth/login_screen.dart';
-import 'package:untitled/view/cart_view.dart';
-import 'package:untitled/view/get_started.dart';
-import 'package:untitled/view/profile_view.dart';
 
 import '../Constant.dart';
 import '../core/view_model/control_view_model.dart';
 
-class ControlView extends GetWidget<AuthViewModel>{
-
+class ControlView extends GetWidget<AuthViewModel> {
   @override
   Widget build(BuildContext context) {
-    return Obx((){
-        return (Get.find<AuthViewModel>().user  != null )
-            ? GetBuilder<ControlViewModel>(
+    return Obx(() {
+      return (Get.find<AuthViewModel>().user != null)
+          ? GetBuilder<ControlViewModel>(
               init: ControlViewModel(),
-              builder:(controller)=>Scaffold(
-              body: controller.currentScreen,
-              bottomNavigationBar: bottomNavigationBar(),
-            ),
-           )
-            : LoginScreen() ;
-
+              builder: (controller) => Scaffold(
+                body: controller.currentScreen,
+                bottomNavigationBar: bottomNavigationBar(),
+              ),
+            )
+          : LoginScreen();
     });
-
   }
-  Widget bottomNavigationBar(){
+
+  Widget bottomNavigationBar() {
     return GetBuilder<ControlViewModel>(
-     init: Get.find<ControlViewModel>(),
+      init: Get.find<ControlViewModel>(),
       builder: (controller) => BottomNavigationBar(
         currentIndex: controller.navigatorValue,
         onTap: (index) {
-          controller.changeSelectedValue(index) ;
-        } ,
+          controller.changeSelectedValue(index);
+        },
         items: [
           BottomNavigationBarItem(
-            activeIcon: Padding(
-              padding: const EdgeInsets.only(top:8.0),
+            activeIcon: const Padding(
+              padding: EdgeInsets.only(top: 8.0),
               child: Text("Explore", style: TextStyle(color: primaryColor)),
             ),
             label: "",
@@ -50,9 +43,9 @@ class ControlView extends GetWidget<AuthViewModel>{
             ),
           ),
           BottomNavigationBarItem(
-            activeIcon: Padding(
-              padding: const EdgeInsets.only(top:8.0),
-              child: Text("Cart" , style: TextStyle(color: primaryColor)),
+            activeIcon: const Padding(
+              padding: EdgeInsets.only(top: 8.0),
+              child: Text("Cart", style: TextStyle(color: primaryColor)),
             ),
             label: "",
             icon: Padding(
@@ -61,9 +54,12 @@ class ControlView extends GetWidget<AuthViewModel>{
             ),
           ),
           BottomNavigationBarItem(
-            activeIcon: Padding(
-              padding: const EdgeInsets.only(top:8.0),
-              child: Text("Account" , style: TextStyle(color: primaryColor),),
+            activeIcon: const Padding(
+              padding: EdgeInsets.only(top: 8.0),
+              child: Text(
+                "Account",
+                style: TextStyle(color: primaryColor),
+              ),
             ),
             label: "",
             icon: Padding(
@@ -71,18 +67,11 @@ class ControlView extends GetWidget<AuthViewModel>{
               child: Image.asset("assets/images/Icon_User.png"),
             ),
           ),
-
         ],
         elevation: 2,
         selectedItemColor: Colors.black,
         backgroundColor: Colors.grey.shade50,
       ),
     );
-
-
   }
-
-
-
-
 }

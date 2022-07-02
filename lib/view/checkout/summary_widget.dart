@@ -8,7 +8,7 @@ class Summary extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            child: Text(
+            child: const Text(
               "Summary",
               style: TextStyle(fontSize: 30),
             ),

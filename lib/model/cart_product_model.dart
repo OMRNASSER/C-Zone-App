@@ -1,42 +1,31 @@
-import 'dart:ui';
-
-import 'package:untitled/helper/extension.dart';
-
 class CartProductModel {
-  String? name , image , price  , productId    ;
-  int quantity = 1  ;
+  String? name, image, price, productId;
+  int quantity = 1;
 
   CartProductModel({
     this.name,
     this.image,
     this.price,
     this.quantity = 1,
-    this.productId ,
-
+    this.productId,
   });
-  CartProductModel.fromJson(Map<dynamic , dynamic> map ){
-    if (map == null ){
-      return ;
+  CartProductModel.fromJson(Map<dynamic, dynamic> map) {
+    if (map == null) {
+      return;
     }
-    name  = map['name'];
-    image  = map['image'];
-    price  = map['price'];
-    quantity  = map['quantity'];
-    productId  = map['productId'];
+    name = map['name'];
+    image = map['image'];
+    price = map['price'];
+    quantity = map['quantity'];
+    productId = map['productId'];
   }
-  toJson(){
+  toJson() {
     return {
       'name': name,
       'image': image,
-      'price':price,
-      'quantity': quantity ,
-      'productId': productId ,
-
+      'price': price,
+      'quantity': quantity,
+      'productId': productId,
     };
   }
-
-
-
-
-
 }
