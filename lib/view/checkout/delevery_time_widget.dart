@@ -8,7 +8,7 @@ class DeliveryTime extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            child: Text(
+            child: const Text(
               "Choose delivery time",
               style: TextStyle(fontSize: 30),
             ),

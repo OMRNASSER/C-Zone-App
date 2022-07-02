@@ -1,26 +1,24 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:untitled/Constant.dart';
-import 'package:untitled/model/product_model.dart';
 
 import '../../../model/cart_product_model.dart';
 
 class CartDataBaseHelper {
   CartDataBaseHelper._();
-  static final CartDataBaseHelper db =CartDataBaseHelper._() ;
+  static final CartDataBaseHelper db = CartDataBaseHelper._();
 
-  static Database? _database ;
-  Future <Database?> get database async {
-    if (_database != null ) return _database ;
+  static Database? _database;
+  Future<Database?> get database async {
+    if (_database != null) return _database;
 
     _database = await initDb();
-    return _database ; 
-
+    return _database;
   }
 
   initDb() async {
-    String path = join(await  getDatabasesPath(), 'CartProduct.db') ;
-    return await openDatabase(path, version: 1 , onCreate: ( Database db , int version )async{
+    String path = join(await getDatabasesPath(), 'CartProduct.db');
+    return await openDatabase(path, version: 1, onCreate: (Database db, int version) async {
       await db.execute('''
       CREATE TABLE $tableCartProduct (
       $columnName TEXT NOT NULL, 
@@ -30,31 +28,33 @@ class CartDataBaseHelper {
       $columnProductId TEXT NOT NULL)
       ''');
     });
-
-
   }
-
 
   Future<List<CartProductModel>> getAllProduct() async {
-    var dbClient= await database ;
+    var dbClient = await database;
     List<Map> maps = await dbClient!.query(tableCartProduct);
-    List<CartProductModel> list  = maps.isNotEmpty ?
-        maps.map((product) => CartProductModel.fromJson(product)).toList()
-        :[] ;
+    List<CartProductModel> list = maps.isNotEmpty ? maps.map((product) => CartProductModel.fromJson(product)).toList() : [];
 
-      return list ;
+    return list;
   }
 
-  insert(CartProductModel model) async{
-    var dbClient= await database ;
-    
-    await dbClient?.insert(tableCartProduct, model.toJson() , conflictAlgorithm: ConflictAlgorithm.replace,
+  insert(CartProductModel model) async {
+    var dbClient = await database;
+
+    await dbClient?.insert(
+      tableCartProduct,
+      model.toJson(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  updateProduct(CartProductModel model) async{
-    var dbClient= await database ;
-    return await dbClient?.update(tableCartProduct, model.toJson(),
-      where:  '$columnProductId = ?' , whereArgs: [model.productId]);
+  Future<int> delete(String columnProductId) async {
+    var dbClient = await database;
+    return await dbClient!.delete(tableCartProduct, where: 'productId = ?', whereArgs: [columnProductId]);
+  }
+
+  updateProduct(CartProductModel model) async {
+    var dbClient = await database;
+    return await dbClient?.update(tableCartProduct, model.toJson(), where: '$columnProductId = ?', whereArgs: [model.productId]);
   }
 }

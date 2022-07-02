@@ -1,4 +1,4 @@
-package com.example.untitled
+package com.czoneapp.master
 
 import io.flutter.embedding.android.FlutterActivity
 

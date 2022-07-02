@@ -1,0 +1,289 @@
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:untitled/core/view_model/home_view_model.dart';
+import 'package:untitled/model/product_model.dart';
+import 'package:untitled/view/Widget/CustomText.dart';
+import 'package:untitled/model/category_model.dart';
+import 'package:untitled/Constant.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:untitled/view/Widget/EmptyResultWidget.dart';
+import 'details_view.dart';
+
+// ignore: must_be_immutable
+class CategoryItemHomeWidget extends StatefulWidget {
+  CategoryItemHomeWidget({Key? key, this.categoryModel}) : super(key: key);
+  CategoryModel? categoryModel;
+  @override
+  _CategoryItemHomeWidget createState() => _CategoryItemHomeWidget();
+}
+
+class _CategoryItemHomeWidget extends State<CategoryItemHomeWidget> {
+  TextEditingController searchTextEditingController = TextEditingController();
+  List<ProductModel> _filterList = [];
+  bool _firstSearch = true;
+  String _query = "";
+
+  _CategoryItemHomeWidget() {
+    searchTextEditingController.addListener(() {
+      if (searchTextEditingController.text.isEmpty) {
+        _firstSearch = true;
+        _query = "";
+        setState(() {});
+      } else {
+        _firstSearch = false;
+        _query = searchTextEditingController.text;
+        setState(() {});
+      }
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        centerTitle: false,
+        title: Row(
+          children: [
+            IconButton(
+              splashRadius: 25.0,
+              onPressed: () => Navigator.of(context).pop(),
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+                size: 20.0,
+              ),
+            ),
+            const SizedBox(width: 10.0),
+            Expanded(
+              child: Text(
+                widget.categoryModel!.name.toString(),
+                style: const TextStyle(color: Colors.black, fontSize: 20.0),
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: GetBuilder<HomeViewModel>(
+          init: Get.find<HomeViewModel>(),
+          builder: (controller) {
+            List<ProductModel> temp = [];
+            if (controller.loading.value == false) {
+              temp = controller.productModel.where((element) => element.categoryId == widget.categoryModel!.categoryId.toString()).toList();
+            }
+            return controller.loading.value
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: primaryColor,
+                    ),
+                  )
+                : Scaffold(
+                    body: ListView(padding: const EdgeInsets.all(20), children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey.shade200,
+                      ),
+                      child: TextFormField(
+                        controller: searchTextEditingController,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Search something',
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: Colors.black,
+                          ),
+                          iconColor: Colors.black,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10.0),
+                    temp.isEmpty
+                        ? Container(
+                            alignment: AlignmentDirectional.center,
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Stack(
+                                  children: <Widget>[
+                                    Container(
+                                      width: 150,
+                                      height: 150,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          gradient: LinearGradient(begin: Alignment.bottomLeft, end: Alignment.topRight, colors: [
+                                            Colors.green,
+                                            Colors.greenAccent.withOpacity(0.1),
+                                          ])),
+                                      child: const Icon(
+                                        Icons.layers,
+                                        color: Colors.white,
+                                        size: 70,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: -30,
+                                      bottom: -50,
+                                      child: Container(
+                                        width: 100,
+                                        height: 100,
+                                        decoration: BoxDecoration(
+                                          color: Colors.green.withOpacity(0.1),
+                                          borderRadius: BorderRadius.circular(150),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: -20,
+                                      top: -50,
+                                      child: Container(
+                                        width: 120,
+                                        height: 120,
+                                        decoration: BoxDecoration(
+                                          color: Colors.green.withOpacity(0.15),
+                                          borderRadius: BorderRadius.circular(150),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 15),
+                                Opacity(
+                                  opacity: 0.4,
+                                  child: Text(
+                                    'No item found in this category',
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context).textTheme.headline2!.merge(
+                                          const TextStyle(
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                        ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : ((_firstSearch == false)
+                            ? _performSearch(controller)
+                            : MasonryGridView.count(
+                                shrinkWrap: true,
+                                primary: false,
+                                crossAxisCount: 2,
+                                itemCount: temp.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Get.to(DetailsView(model: temp[index]));
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Image.network(
+                                            temp[index].image.toString(),
+                                            width: double.infinity,
+                                            height: MediaQuery.of(context).size.height * .3,
+                                            fit: BoxFit.cover,
+                                          ),
+                                          const SizedBox(height: 10),
+                                          CustomText(
+                                            txt: temp[index].name.toString(),
+                                            alignment: Alignment.bottomLeft,
+                                            fontSize: 17,
+                                            maxLine: 1,
+                                          ),
+                                          const SizedBox(height: 4),
+                                          CustomText(
+                                            txt: temp[index].brand.toString(),
+                                            color: Colors.grey,
+                                            fontSize: 15,
+                                            alignment: Alignment.bottomLeft,
+                                            maxLine: 1,
+                                          ),
+                                          const SizedBox(height: 4),
+                                          CustomText(
+                                            txt: temp[index].price.toString() + " EGP",
+                                            alignment: Alignment.bottomLeft,
+                                            color: primaryColor,
+                                            fontSize: 17,
+                                            maxLine: 1,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                mainAxisSpacing: 10.0,
+                                crossAxisSpacing: 10.0))
+                  ]));
+          }),
+    );
+  }
+
+  Widget _performSearch(HomeViewModel controller) {
+     _filterList = [];
+    controller.productModel.where((element) => element.name.toString().toLowerCase().contains(_query.toLowerCase())).map((e) => _filterList.add(e)).toList();
+
+    return _filterList.isEmpty
+        ? const EmptyResultWidget()
+        : MasonryGridView.count(
+            shrinkWrap: true,
+            primary: false,
+            crossAxisCount: 2,
+            itemCount: _filterList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return GestureDetector(
+                onTap: () {
+                  Get.to(DetailsView(model: _filterList[index]));
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.network(
+                        _filterList[index].image.toString(),
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height * .3,
+                        fit: BoxFit.cover,
+                      ),
+                      const SizedBox(height: 10),
+                      CustomText(
+                        txt: _filterList[index].name.toString(),
+                        alignment: Alignment.bottomLeft,
+                        fontSize: 17,
+                        maxLine: 1,
+                      ),
+                      const SizedBox(height: 4),
+                      CustomText(
+                        txt: _filterList[index].brand.toString(),
+                        color: Colors.grey,
+                        fontSize: 15,
+                        alignment: Alignment.bottomLeft,
+                        maxLine: 1,
+                      ),
+                      const SizedBox(height: 4),
+                      CustomText(
+                        txt: _filterList[index].price.toString() + " EGP",
+                        alignment: Alignment.bottomLeft,
+                        color: primaryColor,
+                        fontSize: 17,
+                        maxLine: 1,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+            mainAxisSpacing: 10.0,
+            crossAxisSpacing: 10.0);
+  }
+}
