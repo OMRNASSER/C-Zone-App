@@ -1,0 +1,165 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:untitled/Constant.dart';
+import 'package:untitled/core/view_model/creditcard_view_model.dart';
+import 'package:untitled/view/Widget/custom_Button.dart';
+import 'package:untitled/view/Widget/custom_text_form_field.dart';
+
+class GetCreditView extends StatelessWidget {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black),
+
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50.0), bottomRight: Radius.circular(50.0)),
+        ),
+        toolbarHeight: MediaQuery.of(context).size.height * .25  ,
+        title: Container(
+          height: 75.0,
+          width: 75,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(60.0),
+            color:primaryColor ,
+          ),
+          child: Image.asset('assets/images/credit-card.png' ,
+            height: 60.0, width: 60.0,),
+        ),
+        centerTitle: true,
+      ),
+      body: GetBuilder<CreditCardViewModel>(
+        builder:(controller) => Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Card(
+                  elevation: 2.0,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(left: 16.0 , right: 16.0 , top: 16.0 , ) ,
+                        child: CustomTextForm(
+                          hint: "OMAR NASSER",
+                          txt:'Name on Card',
+                          color: Colors.grey,
+                          controller: controller.name,
+                          onSaved: (value){
+
+                          },
+                          validator: (value){
+                            return controller.validateName(value!);
+
+                          },
+                          obsecure: false,
+                          focusColor: primaryColor,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(left: 16.0 , right: 16.0 , top: 16.0 , ) ,
+                        child: CustomTextForm(
+                          hint: "5123 0089 XXXX 4569",
+                          txt:'Card Number',
+                          color: Colors.grey,
+                          controller: controller.number,
+                          onSaved: (value){
+
+                          },
+                          validator: (value){
+                            return controller.validateNumber(value!);
+                          },
+                          obsecure: false,
+                          focusColor: primaryColor,
+                          icon: Icon(Icons.credit_card),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(left: 16.0 , right: 16.0 , top: 16.0 , ) ,
+                        child: CustomTextForm(
+                          hint: "05/24",
+                          txt:'Expiration Date',
+                          color: Colors.grey,
+                          controller: controller.experationDate,
+                          onSaved: (value){
+
+                          },
+                          validator: (value){
+                            return controller.validateDate(value!);
+                          },
+                          obsecure: false,
+                          focusColor: primaryColor,
+
+                        ),
+
+
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(left: 16.0 , right: 16.0 , top: 16.0 , ) ,
+                        child: CustomTextForm(
+                          hint: "044",
+                          txt:'CVV',
+                          color: Colors.grey,
+                          controller: controller.cvv,
+                          onSaved: (value){
+
+                          },
+                          validator: (value){
+                           return controller.validateCVV(value!);
+                          },
+                          obsecure: true,
+                          focusColor: primaryColor,
+
+                        ),
+
+
+                      ),
+
+                      SizedBox(height: 40.0,),
+
+                    ],
+                  ),
+                ),
+                Padding(
+
+                  padding: const EdgeInsets.all(20.0),
+                  child: CustomButton(
+
+                    txt: "Save Card",
+                    color: primaryColor,
+
+                    onPressed: (){
+
+                      controller.saveCreditCard(
+                          controller.name.text ,
+                          controller.number.text ,
+                          controller.experationDate.text ,
+                          controller.cvv.text,
+
+                      );
+
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+        ),
+      ),
+
+    );
+  }
+
+
+
+
+
+}

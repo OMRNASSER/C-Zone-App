@@ -94,7 +94,7 @@ class AuthViewModel extends GetxController {
            getCurrentUserData(value.user!.uid);
       //  print(value);
       });
-      Get.offAll(ControlView());
+      Get.offAll(ControlView()); //may be this make error
     } catch (e) {
       Get.snackbar(
         'Error login account',
@@ -111,8 +111,6 @@ class AuthViewModel extends GetxController {
           email: email, password: password).then((user) async {
         saveUser(user);
       });
-
-
       Get.offAll(ControlView());
     } catch (e) {
       Get.snackbar(
@@ -142,6 +140,9 @@ class AuthViewModel extends GetxController {
     await FireStoreUser().addUserToFireStore(userModel);
     setUser(userModel) ;
   }
+
+
+
   void setUser (UserModel userModel) async {
     await localStorageData.setUSer(userModel) ;
 

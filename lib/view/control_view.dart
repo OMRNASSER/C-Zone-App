@@ -31,7 +31,7 @@ class ControlView extends GetWidget<AuthViewModel>{
   }
   Widget bottomNavigationBar(){
     return GetBuilder<ControlViewModel>(
-     init: Get.find<ControlViewModel>(),
+     init:Get.put(ControlViewModel()),
       builder: (controller) => BottomNavigationBar(
         currentIndex: controller.navigatorValue,
         onTap: (index) {

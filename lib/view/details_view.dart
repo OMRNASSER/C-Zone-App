@@ -74,7 +74,7 @@ class DetailsView extends StatelessWidget {
                             width: MediaQuery.of(context).size.width * .4,
                             padding: EdgeInsets.all(15.0),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(250),
                               border: Border.all(color: Colors.grey.shade400),
 
                             ),
@@ -91,19 +91,19 @@ class DetailsView extends StatelessWidget {
                             width: MediaQuery.of(context).size.width * .45,
                             padding: EdgeInsets.all(15.0),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(250.0),
                               border: Border.all(color: Colors.grey.shade400),
 
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                              CustomText(txt: 'Colour',),
+                              CustomText(txt: 'Color',),
                                 Container(
                                   width: 35,
                                   height: 20,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(150.0),
                                     border: Border.all(color: Colors.grey.shade300),
                                     color: model.color
                                   ),

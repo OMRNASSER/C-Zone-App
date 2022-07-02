@@ -5,6 +5,7 @@ import 'package:untitled/core/view_model/home_view_model.dart';
 
 import '../core/view_model/cart_view_model.dart';
 import '../core/view_model/control_view_model.dart';
+import '../core/view_model/creditcard_view_model.dart';
 import 'local_storage_data.dart';
 
 class Binding extends Bindings{
@@ -16,6 +17,7 @@ class Binding extends Bindings{
    Get.lazyPut(() => CartViewModel()) ;
    Get.lazyPut(() => LocalStorageData()) ;
    Get.lazyPut(() => CheckOutViewModel()) ;
+   Get.lazyPut(() => CreditCardViewModel()) ;
   }
 
 

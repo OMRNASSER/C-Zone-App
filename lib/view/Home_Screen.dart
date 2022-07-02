@@ -5,6 +5,7 @@ import 'package:untitled/Constant.dart';
 import 'package:untitled/core/view_model/home_view_model.dart';
 import 'package:untitled/view/Widget/CustomText.dart';
 import 'package:untitled/view/auth/login_screen.dart';
+import 'package:untitled/view/see_all_view.dart';
 
 import '../core/view_model/control_view_model.dart';
 import 'details_view.dart';
@@ -37,7 +38,9 @@ class Home_Screen extends StatelessWidget {
                         children: [
                           CustomText(txt : "Best Selling" , fontSize: 18, fontWeight: FontWeight.bold,),
 
-                          CustomText(txt : "See all" , fontSize: 15),
+                          FlatButton(child: CustomText(txt : "See all" , fontSize: 15) , onPressed: (){
+                            Get.to(SeeAllView());
+                          }),
 
                         ],
 

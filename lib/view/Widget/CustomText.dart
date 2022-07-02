@@ -12,6 +12,7 @@ class CustomText extends StatelessWidget {
    final FontWeight fontWeight ;
    final int? maxLine ;
   final double? height ;
+  final String? family ;
   CustomText({
     this.txt = '',
     this.fontSize = 16,
@@ -20,6 +21,8 @@ class CustomText extends StatelessWidget {
     this.fontWeight = FontWeight.normal ,
     this.maxLine ,
     this.height,
+    this.family,
+
   });
 
   @override
@@ -32,6 +35,7 @@ class CustomText extends StatelessWidget {
           fontSize: fontSize,
           fontWeight: fontWeight ,
           height: height ,
+          fontFamily: family ,
 
 
         ),

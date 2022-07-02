@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:untitled/core/view_model/creditcard_view_model.dart';
 import 'package:untitled/view/Widget/CustomText.dart';
+import 'package:untitled/view/notification_view.dart';
 
 import '../core/view_model/profile_view_model.dart';
+import 'credit_view.dart';
 import 'auth/login_screen.dart';
 
 class ProfileView extends StatelessWidget {
@@ -125,22 +128,31 @@ class ProfileView extends StatelessWidget {
                   ),
                 ),
                 //Cards
-                Container(
-                  padding: EdgeInsets.all(15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        child: Row(
-                          children: [
-                            Image.asset("assets/images/Icon_Payment.png", ),
-                            SizedBox(width: 10.0, ) ,
-                            CustomText(txt: "Cards", fontSize: 18, ),
-                          ],
+                GestureDetector(
+                  onTap: (){
+
+                    Get.to(CreditCardsView());
+                    Get.put(CreditCardViewModel());
+
+
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          child: Row(
+                            children: [
+                              Image.asset("assets/images/Icon_Payment.png", ),
+                              SizedBox(width: 10.0, ) ,
+                              CustomText(txt: "Cards", fontSize: 18, ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Icon(Icons.arrow_forward_ios_rounded, ),
-                    ],
+                        Icon(Icons.arrow_forward_ios_rounded, ),
+                      ],
+                    ),
                   ),
                 ),
                 //Notifications
@@ -149,19 +161,27 @@ class ProfileView extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        child: Row(
-                          children: [
-                            Image.asset("assets/images/Icon_Alert.png", ),
-                            SizedBox(width: 10.0, ) ,
-                            CustomText(txt: "Notifications", fontSize: 18, ),
-                          ],
+                      GestureDetector(
+                        onTap: (){
+                          Get.to(NotificationView()) ;
+
+                        },
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Image.asset("assets/images/Icon_Alert.png", ),
+                              SizedBox(width: 10.0, ) ,
+                              CustomText(txt: "Notifications", fontSize: 18, ),
+                            ],
+                          ),
                         ),
                       ),
                       Icon(Icons.arrow_forward_ios_rounded, ),
                     ],
                   ),
                 ),
+
+
                 //Log Out
 
                 GestureDetector(
