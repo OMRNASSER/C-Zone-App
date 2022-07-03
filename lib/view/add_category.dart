@@ -110,11 +110,12 @@ class _AddCategoryWidget extends State<AddCategoryWidget> {
                       onPressed: (checkName.isEmpty || checkPicture == null)
                           ? null
                           : () {
+                              String timeStamp = DateTime.now().millisecondsSinceEpoch.toString();
                               setState(() => isLoading = !isLoading);
-                              _categoryCollectioRef.add({
+                              _categoryCollectioRef.doc(timeStamp).set({
                                 'name': checkName,
                                 'Image': imageUrl,
-                                'categoryId': DateTime.now().millisecondsSinceEpoch.toString(),
+                                'categoryId': timeStamp,
                               }).then((value) {
                                 Navigator.of(context).pop();
                                 setState(() => isLoading = !isLoading);

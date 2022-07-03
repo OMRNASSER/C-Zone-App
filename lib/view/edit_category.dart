@@ -128,7 +128,7 @@ class _EditCategoryWidget extends State<EditCategoryWidget> {
                               }).then((value) {
                                 Navigator.of(context).pop();
                                 setState(() => isLoading = !isLoading);
-                             // ADD GETX RUN
+                                // ADD GETX RUN
                               }).catchError((onError) => setState(() => isLoading = !isLoading));
                             },
                       icon: const Icon(
@@ -195,7 +195,7 @@ class _EditCategoryWidget extends State<EditCategoryWidget> {
                   _categoryCollectioRef.doc(widget.categoryModel!.categoryId).delete().then((value) {
                     Navigator.of(context).pop();
                     setState(() => isLoading = !isLoading);
-                // ADD GETX RUN
+                    // ADD GETX RUN
                   }).catchError((onError) => setState(() => isLoading = !isLoading));
                 },
                 txt: "DELETE THIS CATEGORY",

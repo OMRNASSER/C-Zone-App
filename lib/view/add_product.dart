@@ -118,16 +118,17 @@ class _AddProductWidget extends State<AddProductWidget> {
                       onPressed: (currentCategory.isEmpty || checkName.isEmpty || checkDescription.isEmpty || checkPrice.isEmpty || checkPicture == null)
                           ? null
                           : () {
+                              String timeStamp = DateTime.now().millisecondsSinceEpoch.toString();
                               setState(() => isLoading = !isLoading);
                              
-                              _productCollectionsRef.add({
+                              _productCollectionsRef.doc(timeStamp).set({
                                 'name': checkName,
                                 'price': checkPrice,
                                 'description': checkDescription,
                                 'image': imageUrl,
                                 'imagesList': [imageUrl],
                                 'categoryId': currentCategory,
-                                'productId': DateTime.now().millisecondsSinceEpoch.toString(),
+                                'productId': timeStamp,
                               }).then((value) {
                                 // ADD GETX RUN
                                 Navigator.of(context).pop();
