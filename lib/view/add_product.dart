@@ -3,7 +3,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:untitled/core/view_model/home_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:untitled/model/product_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:untitled/Constant.dart';
 import 'package:flutter/material.dart';

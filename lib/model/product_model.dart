@@ -1,5 +1,3 @@
-import 'dart:ui';
-import 'package:untitled/helper/extension.dart';
 import 'package:flutter/material.dart';
 
 class ProductModel {
