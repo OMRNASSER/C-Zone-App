@@ -124,7 +124,7 @@ class _EditCategoryWidget extends State<EditCategoryWidget> {
                               _categoryCollectioRef.doc(widget.categoryModel!.categoryId).update({
                                 'name': checkName,
                                 'Image': imageUrl,
-                                'categoryId': DateTime.now().millisecondsSinceEpoch,
+                                'categoryId': widget.categoryModel!.categoryId,
                               }).then((value) {
                                 Navigator.of(context).pop();
                                 setState(() => isLoading = !isLoading);

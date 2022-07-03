@@ -92,6 +92,7 @@ class _EditProductWidget extends State<EditProductWidget> {
       checkName = widget.productModel!.name.toString();
       checkDescription = widget.productModel!.description.toString();
       imageUrl = widget.productModel!.image.toString();
+      currentCategory = widget.productModel!.categoryId.toString();
       setState(() {});
     }
   }
@@ -141,7 +142,8 @@ class _EditProductWidget extends State<EditProductWidget> {
                                 'description': checkDescription,
                                 'image': imageUrl,
                                 'imagesList': [imageUrl],
-                                'categoryId': currentCategory
+                                'categoryId': currentCategory,
+                                'productId': widget.productModel!.productId,
                               }).then((value) {
                                 Navigator.of(context).pop();
                                 setState(() => isLoading = !isLoading);
@@ -271,6 +273,7 @@ class _EditProductWidget extends State<EditProductWidget> {
                       onTap: () {
                         controller.categoryModel.map((e) => e.selected = false).toList();
                         controller.categoryModel.elementAt(index).selected = true;
+                        currentCategory = controller.categoryModel.elementAt(index).categoryId.toString();
                         setState(() {});
                       },
                       child: Container(
