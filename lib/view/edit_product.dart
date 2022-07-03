@@ -1,11 +1,14 @@
-import 'dart:io';
-
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:untitled/core/view_model/home_view_model.dart';
-import 'package:untitled/model/product_model.dart';
-import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:untitled/view/Widget/custom_Button.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:untitled/model/product_model.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:untitled/Constant.dart';
+import 'package:flutter/material.dart';
+import 'dart:io';
 
 // ignore: must_be_immutable
 class EditProductWidget extends StatefulWidget {
@@ -17,6 +20,8 @@ class EditProductWidget extends StatefulWidget {
 }
 
 class _EditProductWidget extends State<EditProductWidget> {
+  final CollectionReference _productCollectionsRef = FirebaseFirestore.instance.collection('Products');
+  firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
   TextEditingController checkDescriptionController = TextEditingController();
   TextEditingController checkPriceController = TextEditingController();
   TextEditingController checkNameController = TextEditingController();
@@ -24,6 +29,57 @@ class _EditProductWidget extends State<EditProductWidget> {
   bool isLoading = false;
   String checkPrice = "";
   String checkName = "";
+  File? checkPicture;
+  String imageUrl = '';
+  String currentCategory = '';
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              color: Colors.white,
+              child: Wrap(
+                children: <Widget>[
+                  ListTile(
+                      leading: const Icon(Icons.photo_library),
+                      title: const Text('Gallery'),
+                      onTap: () async {
+                        ImagePicker picker = ImagePicker();
+                        XFile? xFile = await picker.pickImage(source: ImageSource.gallery);
+                        checkPicture = File(xFile!.path);
+                        uploadFile(File(xFile.path));
+                        setState(() {});
+                        Navigator.of(context).pop();
+                      }),
+                  ListTile(
+                    leading: const Icon(Icons.photo_camera),
+                    title: const Text('Camera'),
+                    onTap: () async {
+                      ImagePicker picker = ImagePicker();
+                      XFile? xFile = await picker.pickImage(source: ImageSource.camera);
+                      checkPicture = File(xFile!.path);
+                      uploadFile(File(xFile.path));
+                      setState(() {});
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Future uploadFile(file) async {
+    setState(() => isLoading = !isLoading);
+    FirebaseStorage storage = FirebaseStorage.instance;
+    Reference ref = storage.ref().child(file.path + DateTime.now().toString());
+    await ref.putFile(file);
+    imageUrl = await ref.getDownloadURL();
+    setState(() => isLoading = !isLoading);
+  }
 
   @override
   void initState() {
@@ -35,6 +91,7 @@ class _EditProductWidget extends State<EditProductWidget> {
       checkPrice = widget.productModel!.price.toString();
       checkName = widget.productModel!.name.toString();
       checkDescription = widget.productModel!.description.toString();
+      imageUrl = widget.productModel!.image.toString();
       setState(() {});
     }
   }
@@ -65,15 +122,38 @@ class _EditProductWidget extends State<EditProductWidget> {
                 ),
               ),
               const SizedBox(width: 10.0),
-              IconButton(
-                splashRadius: 25.0,
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(
-                  Icons.check,
-                  color: Colors.black,
-                  size: 20.0,
-                ),
-              ),
+              (isLoading)
+                  ? CircularProgressIndicator(
+                      valueColor: const AlwaysStoppedAnimation<Color>(primaryColor),
+                      backgroundColor: Colors.grey[200],
+                      strokeWidth: 1.0,
+                    )
+                  : IconButton(
+                      splashRadius: 25.0,
+                      onPressed: (currentCategory.isEmpty || checkName.isEmpty || checkDescription.isEmpty || checkPrice.isEmpty)
+                          ? null
+                          : () {
+                              setState(() => isLoading = !isLoading);
+
+                              _productCollectionsRef.doc(widget.productModel!.productId).update({
+                                'name': checkName,
+                                'price': checkPrice,
+                                'description': checkDescription,
+                                'image': imageUrl,
+                                'imagesList': [imageUrl],
+                                'categoryId': currentCategory
+                              }).then((value) {
+                                Navigator.of(context).pop();
+                                setState(() => isLoading = !isLoading);
+                                // ADD GETX RUN
+                              }).catchError((onError) => setState(() => isLoading = !isLoading));
+                            },
+                      icon: const Icon(
+                        Icons.check,
+                        color: Colors.black,
+                        size: 20.0,
+                      ),
+                    ),
             ],
           ),
         ),
@@ -89,25 +169,15 @@ class _EditProductWidget extends State<EditProductWidget> {
               ),
               const SizedBox(height: 10.0),
               InkWell(
-                onTap: () async {
-                  ImagePicker picker = ImagePicker();
-                  XFile? xFile = await picker.pickImage(source: ImageSource.gallery);
-                  File file = File(xFile!.path);
-                  // UPLOAD THE FILE TO FIREBASE
-                },
+                onTap: () => _showPicker(context),
                 child: Container(
                   height: 80.0,
                   width: 80.0,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).focusColor,
+                    color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(8.0),
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: NetworkImage(
-                        widget.productModel!.image.toString(),
-                      ),
-                    ),
                   ),
+                  child: (checkPicture == null) ? Image.network(widget.productModel!.image.toString()) : Image.file(checkPicture!),
                 ),
               ),
               const SizedBox(height: 10.0),
@@ -226,7 +296,13 @@ class _EditProductWidget extends State<EditProductWidget> {
               ),
               const SizedBox(height: 20.0),
               CustomButton(
-                onPressed: () {},
+                onPressed: () {
+                  _productCollectionsRef.doc(widget.productModel!.productId).delete().then((value) {
+                    Navigator.of(context).pop();
+                    setState(() => isLoading = !isLoading);
+                    // ADD GETX RUN
+                  }).catchError((onError) => setState(() => isLoading = !isLoading));
+                },
                 txt: "DELETE THIS PRODUCT",
                 color: Colors.red,
               ),

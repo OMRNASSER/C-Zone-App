@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:untitled/view/control_view.dart';
 
 import '../Constant.dart';
 import '../core/view_model/home_view_model.dart';
@@ -20,17 +19,17 @@ class SeeAllView extends StatelessWidget {
                 backgroundColor: Colors.white,
                 elevation: 0,
                 centerTitle:true ,
-                iconTheme: IconThemeData(color: Colors.black , opacity: 100.0 ,size: 20 ),
-                title:CustomText(txt:"Best Selling Products" , ),
+                iconTheme: const IconThemeData(color: Colors.black , opacity: 100.0 ,size: 20 ),
+                title:const CustomText(txt:"Best Selling Products" , ),
               ) ,
                 body: GridView.builder(
 
                   itemCount: controller.productModel.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount( crossAxisCount: 2 , crossAxisSpacing: 10, mainAxisSpacing:20 , ),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount( crossAxisCount: 2 , crossAxisSpacing: 10, mainAxisSpacing:20 , ),
                     itemBuilder: (context , index){
                       return GestureDetector(
                         onTap: () {Get.to(DetailsView(model:controller.productModel[index]));} ,
-                        child: Container(
+                        child: SizedBox(
                           width:500,
                           height: 500,
                           child: Column(

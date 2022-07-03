@@ -188,7 +188,7 @@ class ProfileView extends StatelessWidget {
                       //Notifications
                       GestureDetector(
                         onTap: (){
-                          Get.to(NotificationView());
+                          Get.to(const NotificationView());
                         },
                         child: Container(
                           padding: const EdgeInsets.all(15.0),
@@ -221,7 +221,7 @@ class ProfileView extends StatelessWidget {
                       Visibility(
                         //visible: controller.userModel!.role == 'admin',
                         child: GestureDetector(
-                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AllProductsWidget())),
+                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AllProductsWidget())),
                           child: Container(
                             padding: const EdgeInsets.all(15.0),
                             child: Row(

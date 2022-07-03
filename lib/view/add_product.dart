@@ -1,9 +1,13 @@
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:untitled/core/view_model/home_view_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:untitled/model/product_model.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:untitled/Constant.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
-
-import 'package:untitled/core/view_model/home_view_model.dart';
 
 // ignore: must_be_immutable, use_key_in_widget_constructors
 class AddProductWidget extends StatefulWidget {
@@ -12,6 +16,8 @@ class AddProductWidget extends StatefulWidget {
 }
 
 class _AddProductWidget extends State<AddProductWidget> {
+  final CollectionReference _productCollectionsRef = FirebaseFirestore.instance.collection('Products');
+  firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
   TextEditingController checkDescriptionController = TextEditingController();
   TextEditingController checkPriceController = TextEditingController();
   TextEditingController checkNameController = TextEditingController();
@@ -19,6 +25,57 @@ class _AddProductWidget extends State<AddProductWidget> {
   bool isLoading = false;
   String checkPrice = "";
   String checkName = "";
+  File? checkPicture;
+  String imageUrl = '';
+  String currentCategory = '';
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              color: Colors.white,
+              child: Wrap(
+                children: <Widget>[
+                  ListTile(
+                      leading: const Icon(Icons.photo_library),
+                      title: const Text('Gallery'),
+                      onTap: () async {
+                        ImagePicker picker = ImagePicker();
+                        XFile? xFile = await picker.pickImage(source: ImageSource.gallery);
+                        checkPicture = File(xFile!.path);
+                        uploadFile(File(xFile.path));
+                        setState(() {});
+                        Navigator.of(context).pop();
+                      }),
+                  ListTile(
+                    leading: const Icon(Icons.photo_camera),
+                    title: const Text('Camera'),
+                    onTap: () async {
+                      ImagePicker picker = ImagePicker();
+                      XFile? xFile = await picker.pickImage(source: ImageSource.camera);
+                      checkPicture = File(xFile!.path);
+                      uploadFile(File(xFile.path));
+                      setState(() {});
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Future uploadFile(file) async {
+    setState(() => isLoading = !isLoading);
+    FirebaseStorage storage = FirebaseStorage.instance;
+    Reference ref = storage.ref().child(file.path + DateTime.now().toString());
+    await ref.putFile(file);
+    imageUrl = await ref.getDownloadURL();
+    setState(() => isLoading = !isLoading);
+  }
 
   @override
   void initState() {
@@ -51,15 +108,39 @@ class _AddProductWidget extends State<AddProductWidget> {
                 ),
               ),
               const SizedBox(width: 10.0),
-              IconButton(
-                splashRadius: 25.0,
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(
-                  Icons.check,
-                  color: Colors.black,
-                  size: 20.0,
-                ),
-              ),
+              (isLoading)
+                  ? CircularProgressIndicator(
+                      valueColor: const AlwaysStoppedAnimation<Color>(primaryColor),
+                      backgroundColor: Colors.grey[200],
+                      strokeWidth: 1.0,
+                    )
+                  : IconButton(
+                      splashRadius: 25.0,
+                      onPressed: (currentCategory.isEmpty || checkName.isEmpty || checkDescription.isEmpty || checkPrice.isEmpty || checkPicture == null)
+                          ? null
+                          : () {
+                              setState(() => isLoading = !isLoading);
+                             
+                              _productCollectionsRef.add({
+                                'name': checkName,
+                                'price': checkPrice,
+                                'description': checkDescription,
+                                'image': imageUrl,
+                                'imagesList': [imageUrl],
+                                'categoryId': currentCategory,
+                                'productId': DateTime.now().millisecondsSinceEpoch.toString(),
+                              }).then((value) {
+                                // ADD GETX RUN
+                                Navigator.of(context).pop();
+                                setState(() => isLoading = !isLoading);
+                              }).catchError((onError) => setState(() => isLoading = !isLoading));
+                            },
+                      icon: const Icon(
+                        Icons.check,
+                        color: Colors.black,
+                        size: 20.0,
+                      ),
+                    ),
             ],
           ),
         ),
@@ -75,25 +156,30 @@ class _AddProductWidget extends State<AddProductWidget> {
               ),
               const SizedBox(height: 10.0),
               InkWell(
-                onTap: () async {
-                  ImagePicker picker = ImagePicker();
-                  XFile? xFile = await picker.pickImage(source: ImageSource.gallery);
-                  File file = File(xFile!.path);
-                  // UPLOAD THE FILE TO FIREBASE
-                },
-                child: Container(
-                  height: 80.0,
-                  width: 80.0,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: const Icon(
-                    Icons.photo_album,
-                    size: 30,
-                    color: Colors.black,
-                  ),
-                ),
+                onTap: () => _showPicker(context),
+                child: (checkPicture == null)
+                    ? Container(
+                        height: 80.0,
+                        width: 80.0,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: const Icon(
+                          Icons.photo_album,
+                          size: 25,
+                          color: Colors.black,
+                        ),
+                      )
+                    : Container(
+                        height: 80.0,
+                        width: 80.0,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: Image.file(checkPicture!),
+                      ),
               ),
               const SizedBox(height: 10.0),
               const Text(
@@ -186,6 +272,7 @@ class _AddProductWidget extends State<AddProductWidget> {
                       onTap: () {
                         controller.categoryModel.map((e) => e.selected = false).toList();
                         controller.categoryModel.elementAt(index).selected = true;
+                        currentCategory = controller.categoryModel.elementAt(index).categoryId.toString();
                         setState(() {});
                       },
                       child: Container(

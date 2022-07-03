@@ -1,6 +1,6 @@
 import 'dart:ui';
-
 import 'package:untitled/helper/extension.dart';
+import 'package:flutter/material.dart';
 
 class ProductModel {
   String? productId, categoryId, name, image, description, sized, price, brand;
@@ -25,12 +25,12 @@ class ProductModel {
     name = map['name'];
     image = map['image'];
     description = map['description'];
-    color = HexColor.fromHex(map['color']);
-    sized = map['sized'];
+    color = Colors.red;
+    sized = '';
     price = map['price'];
-    brand = map['brand'];
-    productId = map['productId'];
-    categoryId = map['categoryId'];
+    brand =  '';
+    productId = map['productId']??'';
+    categoryId = map['categoryId']??'';
     imagesList = getImageList(map['imagesList'] == null ? []: map['imagesList'].toList());
   }
   toJson() {

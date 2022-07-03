@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:untitled/Constant.dart';
 import 'package:untitled/core/view_model/credit_controller.dart';
-import 'package:untitled/core/view_model/creditcard_view_model.dart';
 import 'package:untitled/view/Widget/custom_Button.dart';
 import 'package:untitled/view/Widget/custom_text_form_field.dart';
 
@@ -19,7 +17,7 @@ class GetCreditView extends GetView<CreditController> {
       builder:(controller) => Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: const IconThemeData(color: Colors.black),
           // leading: IconButton( onPressed: () => Get.back(), icon: Icon(Icons.arrow_back_ios_rounded)),
 
           shape: const RoundedRectangleBorder(
@@ -85,7 +83,7 @@ class GetCreditView extends GetView<CreditController> {
                               },
                               obsecure: false,
                               focusColor: primaryColor,
-                              icon: Icon(Icons.credit_card),
+                              icon: const Icon(Icons.credit_card),
                             ),
                           ),
                           Container(
@@ -129,7 +127,7 @@ class GetCreditView extends GetView<CreditController> {
 
                           ),
 
-                          SizedBox(height: 40.0,),
+                          const SizedBox(height: 40.0,),
 
                         ],
                       ),

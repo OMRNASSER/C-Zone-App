@@ -1,29 +1,29 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:untitled/core/services/creditcard_services.dart';
 import 'package:untitled/core/view_model/creditcard_view_model.dart';
-import 'package:untitled/view/custom_screen_dialog.dart';
-
+import 'package:untitled/core/services/creditcard_services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../model/creditcard_model.dart';
 import '../../view/custom_snackbar.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 
 class CreditController extends GetxController {
 
-  List<CreditCardModel> get creditCard => _creditCard;
-  List<CreditCardModel> _creditCard = [];
-
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late TextEditingController nameController, numberController, experationDateController, cvvController;
+ 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-
-  late CollectionReference getCollectionCreditRef;
-
-  late TextEditingController nameController, numberController,
-      experationDateController, cvvController;
-
+ 
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+ 
   RxList<CreditCardModel> cards = RxList<CreditCardModel>([]);
+ 
+  List<CreditCardModel> get creditCard => _creditCard;
+ 
+  late CollectionReference getCollectionCreditRef;
+ 
+  final List<CreditCardModel> _creditCard = [];
 
-
+  @override
   void onInit() {
     super.onInit();
     nameController = TextEditingController();
@@ -78,10 +78,6 @@ class CreditController extends GetxController {
     return null;
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void onClose() {

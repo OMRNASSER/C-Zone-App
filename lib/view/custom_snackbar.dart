@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,14 +13,14 @@ class CustomSnackBar {
         backgroundColor: backgroundColor,
         titleText: Text(
           title,
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
         ),
         messageText: Text(
           message,
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
         ),
         colorText: Colors.white,
         borderRadius: 8,
-        margin: EdgeInsets.all(16));
+        margin: const EdgeInsets.all(16));
   }
 }

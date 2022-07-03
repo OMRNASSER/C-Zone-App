@@ -1,15 +1,17 @@
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:untitled/core/view_model/home_view_model.dart';
-import 'package:untitled/model/product_model.dart';
 import 'package:untitled/view/Widget/CustomText.dart';
+import 'package:untitled/model/product_model.dart';
+import 'package:untitled/view/edit_product.dart';
+import 'package:untitled/view/add_product.dart';
 import 'package:untitled/Constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:untitled/view/add_product.dart';
-import 'package:untitled/view/edit_product.dart';
 
 // ignore: must_be_immutable
 class AllProductsWidget extends StatelessWidget {
+  const AllProductsWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

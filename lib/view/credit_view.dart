@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:untitled/Constant.dart';
-import 'package:untitled/core/view_model/credit_controller.dart';
 import 'package:untitled/core/view_model/creditcard_view_model.dart';
 import 'package:untitled/view/Widget/CustomText.dart';
 
@@ -11,7 +10,7 @@ class CreditCardsView extends StatelessWidget {
 
 
   List<Color>? color = [
-    Color(0xFF090943) ,
+    const Color(0xFF090943) ,
     Colors.black ,
     Colors.blueAccent ,
     Colors.tealAccent ,
@@ -81,7 +80,7 @@ class CreditCardsView extends StatelessWidget {
 
 
 
-          } , separatorBuilder: (context ,builder) =>  SizedBox(height: 4.0,) ,
+          } , separatorBuilder: (context ,builder) =>  const SizedBox(height: 4.0,) ,
           ),
           ),
     );

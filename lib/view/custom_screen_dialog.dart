@@ -6,14 +6,14 @@ class CustomFullScreenDialog {
     Get.dialog(
       WillPopScope(
         child: Container(
-          child: Center(
+          child: const Center(
             child: CircularProgressIndicator(),
           ),
         ),
         onWillPop: () => Future.value(false),
       ),
       barrierDismissible: false,
-      barrierColor: Color(0xff141A31).withOpacity(.3),
+      barrierColor: const Color(0xff141A31).withOpacity(.3),
       useSafeArea: true,
     );
   }

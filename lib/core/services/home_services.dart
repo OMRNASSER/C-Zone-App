@@ -12,7 +12,6 @@ class HomeService {
 
   Future<List<QueryDocumentSnapshot>> getBestSelling() async {
     var value = await _productCollectionsRef.get();
-
     return value.docs;
   }
 }
