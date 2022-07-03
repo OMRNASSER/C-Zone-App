@@ -1,6 +1,7 @@
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:untitled/model/creditcard_model.dart';
 
 class CreditCardServices {
@@ -13,7 +14,7 @@ class CreditCardServices {
     return value.docs ;
   }
 
-  Future<void>addCreditToFireStore(CreditCardModel creditCardModel)async{
+  Future addCreditToFireStore(CreditCardModel creditCardModel)async{
 
     return await _creditCardCollectionRef.doc(creditCardModel.docId).set(creditCardModel.toJson()) ;
 

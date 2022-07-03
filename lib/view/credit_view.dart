@@ -1,65 +1,96 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:untitled/Constant.dart';
+import 'package:untitled/core/view_model/credit_controller.dart';
+import 'package:untitled/core/view_model/creditcard_view_model.dart';
 import 'package:untitled/view/Widget/CustomText.dart';
 
+import 'get_credit_view.dart';
+
 class CreditCardsView extends StatelessWidget {
-  const CreditCardsView({Key? key}) : super(key: key);
+
+
+  List<Color>? color = [
+    Color(0xFF090943) ,
+    Colors.black ,
+    Colors.blueAccent ,
+    Colors.tealAccent ,
+    Colors.black45 ,
+    Colors.amber ,
+    Colors.purpleAccent ,
+    Colors.black26 ,
+    Colors.grey ,
+    Colors.purple ,
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 1.0,
-        toolbarHeight:MediaQuery.of(context).size.height * .25 ,
-        leadingWidth: 100.0,
-        iconTheme: const IconThemeData(color: Colors.black),
-        centerTitle: true ,
-        shape:const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(50.0),
-          ),
-        ),
-
-        title: const CustomText(txt:"My Cards" , fontSize: 27.0, fontWeight: FontWeight.bold,  family:'Lato',),
-        backgroundColor: Colors.white ,
-
-      ),
-
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(10.0),
-         child:  Column(
-           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children:  <Widget>[
-              _buildCreditCard(
-                color: const Color(0xFF090943) ,
-                cardHodler: "OMAR ABDELNASSER AHMED",
-                cardExpiration: "10/23" ,
-                cardNumber: "5123 0089 XXXX 4569" ,
-              ),
-              _buildCreditCard(
-                color: const Color(0xFF000000) ,
-                cardHodler: "HAMZA ABDELRAHMAN MOHAMED",
-                cardExpiration: "05/24" ,
-                cardNumber: "5614 0064 XXXX 5689" ,
-              ),
-              _buildAddCardButton(icon: const Icon(Icons.add , color: Colors.white,) , color: const Color(0xFF081603)),
-
-            ],
-
-
+    return GetBuilder<CreditCardViewModel>(
+      init: Get.put(CreditCardViewModel()),
+      builder:(controller) =>  Scaffold(
+        appBar: AppBar(
+          elevation: 1.0,
+          toolbarHeight:MediaQuery.of(context).size.height * .25 ,
+          leadingWidth: 100.0,
+          iconTheme: const IconThemeData(color: Colors.black),
+          centerTitle: true ,
+          shape:const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(50.0),
+            ),
           ),
 
-
-
+          title: const CustomText(txt:"My Cards" , fontSize: 27.0, fontWeight: FontWeight.bold,  family:'Lato',),
+          backgroundColor: Colors.white ,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: _buildAddCardButton(icon: const Icon(Icons.add , color: Colors.white,) , color: primaryColor),
+            ),
+          ],
 
         ),
-      ),
+
+        body: ListView.separated(
+          itemCount: controller.creditCard.length,
+          itemBuilder: (context , index){
+
+          return Container(
+            padding: const EdgeInsets.all(10.0),
+           child:  Column(
+             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children:  <Widget>[
+                _buildCreditCard(
+                  color: color![index] ,
+                  cardHodler: controller.creditCard[index].cardHolder.toString().toUpperCase(),
+                  cardExpiration: controller.creditCard[index].cardExpiration.toString() ,
+                  cardNumber: controller.creditCard[index].cardNumber.toString(),
+                ),
+                // _buildCreditCard(
+                //   color: const Color(0xFF000000) ,
+                //   cardHodler: "HAMZA ABDELRAHMAN MOHAMED",
+                //   cardExpiration: "05/24" ,
+                //   cardNumber: "5614 0064 XXXX 5689" ,
+                // ),
+
+
+              ],
+            )
+          );
+
+
+
+          } , separatorBuilder: (context ,builder) =>  SizedBox(height: 4.0,) ,
+          ),
+          ),
     );
   }
 
   Widget _buildAddCardButton({required Icon icon , required Color color}){
     return Container(
+      height: 45.0,
+      width: 45.0,
 
       padding: const EdgeInsets.only(top: 24.0),
       decoration: BoxDecoration(
@@ -69,7 +100,10 @@ class CreditCardsView extends StatelessWidget {
       child: FloatingActionButton(
         elevation: 2.0,
           onPressed: (){
-          print("Add a credit card ");
+
+          Get.to(GetCreditView());
+
+
           },
         child: icon,
         backgroundColor: color,

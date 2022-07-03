@@ -881,7 +881,7 @@ class _PasswordResetWidget extends State<CheckoutViewWidget> {
                         borderRadius: BorderRadius.circular(100.0),
                       ),
                       child: Icon(
-                        Icons.wallet,
+                        Icons.account_balance_wallet_sharp,
                         size: 24,
                         color: steps2 == 2 ? Colors.white : Colors.grey,
                       ),

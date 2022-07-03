@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:untitled/model/creditcard_model.dart';
 
 
+import '../../view/custom_screen_dialog.dart';
 import '../../view/custom_snack_bar.dart';
 import '../services/creditcard_services.dart';
 
@@ -19,27 +20,22 @@ class CreditCardViewModel extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  late CollectionReference getCreditRef;
+  late CollectionReference getCollectionCreditRef;
 
-  late TextEditingController name, number, experationDate, cvv ;
+  late TextEditingController nameController, numberController , experationDateController, cvvController ;
 
+   RxList<CreditCardModel> cards =RxList<CreditCardModel>([]);
 
 
 
   CreditCardViewModel() {
     getCreditCard();
+
   }
 
 
   @override
-  void onInit() {
-    super.onInit();
-    name = TextEditingController();
-    number = TextEditingController();
-    experationDate = TextEditingController();
-    cvv = TextEditingController();
-    getCreditRef = firebaseFirestore.collection('CreditCards');
-  }
+
 
 
   getCreditCard() async {
@@ -53,59 +49,18 @@ class CreditCardViewModel extends GetxController {
   }
 
 
-  void  saveCreditCard(String name, String number, String experationDate,String Cvv){
-
-
-  }
-
-  String? validateName(String value) {
-    if (value.isEmpty) {
-      return "Name can be not empty" ;
-
-    }
-    return null;
-  }
-
-  String? validateNumber(String value) {
-    if (value.isEmpty && value.length < 16 && value.length > 16 ) {
-      return "Please Enter A Valid Number" ;
-    }
-
-    return null;
-  }
-
-
-  String? validateDate(String value) {
-    if (value.isEmpty) {
-      return "Please Enter A valid Date on The card " ;
-
-    }
-    return null;
-  }
-
-  String? validateCVV(String value) {
-    if (value.isEmpty && value.length < 3 && value.length > 3 ) {
-      return "Please Enter A valid CVV Contain 3 numbers" ;
-
-    }
-    return null;
-  }
 
 
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
-  @override
-  void onClose() {
 
-  }
 
-  void clearEditing() {
 
-  }
+
+
+
+
+
 
 
 

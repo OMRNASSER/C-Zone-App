@@ -19,6 +19,14 @@ CreditCardModel.fromJson(Map<dynamic , dynamic> map ){
 
 
 }
+CreditCardModel.fromMap(DocumentSnapshot data) {
+  docId = data.id;
+  cardHolder = data["cardHolder"];
+  cardNumber = data["cardNumber"];
+  cardExpiration = data["cardExpiration"];
+
+
+}
 toJson(){
   return {
     'docId':docId ,

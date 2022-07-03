@@ -1,7 +1,13 @@
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:untitled/Constant.dart';
+import 'package:untitled/core/view_model/control_view_model.dart';
+import 'package:untitled/core/view_model/home_view_model.dart';
+import 'package:untitled/view/Home_Screen.dart';
 import 'package:untitled/view/Widget/CustomText.dart';
+import 'package:untitled/view/Widget/custom_Button.dart';
 class NotificationView extends StatefulWidget {
   const NotificationView({Key? key}) : super(key: key);
 
@@ -33,7 +39,7 @@ class _NotificationScreenState extends State<NotificationView> {
 
                 children: [
                   CustomText(txt: "Hello, There!  ", fontSize: 26.0 , fontWeight: FontWeight.w900,),
-                  CustomText(txt: "You Have an Offer Check it quikly , ", fontSize: 16.0 ,fontWeight: FontWeight.w300,),
+                  CustomText(txt: "You have an Offer Check it quikly , ", fontSize: 16.0 ,fontWeight: FontWeight.w300,),
 
 
 
@@ -48,8 +54,10 @@ class _NotificationScreenState extends State<NotificationView> {
                 borderRadius: BorderRadius.circular(20.0),
                 color: primaryColor ,
               ),
+              child: SvgPicture.asset("assets/images/undraw_gifts_re_75wq.svg" , ),
 
             ), ),
+
             const SizedBox(height: 10.0,),
 
 

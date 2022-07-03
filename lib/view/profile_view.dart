@@ -1,5 +1,8 @@
+import 'package:untitled/core/view_model/creditcard_view_model.dart';
 import 'package:untitled/view/Widget/CustomText.dart';
 import 'package:untitled/view/all_categories.dart';
+import 'package:untitled/view/credit_view.dart';
+import 'package:untitled/view/notification_view.dart';
 import '../core/view_model/profile_view_model.dart';
 import 'package:untitled/view/all_products.dart';
 import 'package:flutter/material.dart';
@@ -149,55 +152,68 @@ class ProfileView extends StatelessWidget {
                         ),
                       ),
                       //Cards
-                      Container(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
+                      GetBuilder<CreditCardViewModel>(
+                        builder: (controller) => GestureDetector(
+                          onTap: (){
+                            Get.find<CreditCardViewModel>();
+                            Get.to(()=> CreditCardsView());
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Image.asset(
-                                  "assets/images/Icon_Payment.png",
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/Icon_Payment.png",
+                                    ),
+                                    const SizedBox(
+                                      width: 10.0,
+                                    ),
+                                    const CustomText(
+                                      txt: "Cards",
+                                      fontSize: 18,
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(
-                                  width: 10.0,
-                                ),
-                                const CustomText(
-                                  txt: "Cards",
-                                  fontSize: 18,
+                                const Icon(
+                                  Icons.arrow_forward_ios_rounded,
                                 ),
                               ],
                             ),
-                            const Icon(
-                              Icons.arrow_forward_ios_rounded,
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                       //Notifications
-                      Container(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Image.asset(
-                                  "assets/images/Icon_Alert.png",
-                                ),
-                                const SizedBox(
-                                  width: 10.0,
-                                ),
-                                const CustomText(
-                                  txt: "Notifications",
-                                  fontSize: 18,
-                                ),
-                              ],
-                            ),
-                            const Icon(
-                              Icons.arrow_forward_ios_rounded,
-                            ),
-                          ],
+                      GestureDetector(
+                        onTap: (){
+                          Get.to(NotificationView());
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/Icon_Alert.png",
+                                  ),
+                                  const SizedBox(
+                                    width: 10.0,
+                                  ),
+                                  const CustomText(
+                                    txt: "Notifications",
+                                    fontSize: 18,
+                                  ),
+                                ],
+                              ),
+                              const Icon(
+                                Icons.arrow_forward_ios_rounded,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       //Log Out
