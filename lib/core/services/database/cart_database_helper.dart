@@ -52,6 +52,10 @@ class CartDataBaseHelper {
     var dbClient = await database;
     return await dbClient!.delete(tableCartProduct, where: 'productId = ?', whereArgs: [columnProductId]);
   }
+   Future<int> deleteAll() async {
+    var dbClient = await database;
+    return await dbClient!.delete(tableCartProduct);
+  }
 
   updateProduct(CartProductModel model) async {
     var dbClient = await database;

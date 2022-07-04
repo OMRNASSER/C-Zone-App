@@ -23,15 +23,19 @@ class _EditProductWidget extends State<EditProductWidget> {
   final CollectionReference _productCollectionsRef = FirebaseFirestore.instance.collection('Products');
   firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
   TextEditingController checkDescriptionController = TextEditingController();
+  TextEditingController checkSizedController = TextEditingController();
+  TextEditingController checkBrandController = TextEditingController();
   TextEditingController checkPriceController = TextEditingController();
   TextEditingController checkNameController = TextEditingController();
   String checkDescription = "";
+  String currentCategory = '';
+  String checkBrand = "";
+  String checkSized = "";
   bool isLoading = false;
   String checkPrice = "";
   String checkName = "";
-  File? checkPicture;
   String imageUrl = '';
-  String currentCategory = '';
+  File? checkPicture;
 
   void _showPicker(context) {
     showModalBottomSheet(
@@ -88,8 +92,12 @@ class _EditProductWidget extends State<EditProductWidget> {
       checkPriceController.text = widget.productModel!.price.toString();
       checkDescriptionController.text = widget.productModel!.description.toString();
       checkNameController.text = widget.productModel!.name.toString();
+      checkBrandController.text = widget.productModel!.brand.toString();
+      checkSizedController.text = widget.productModel!.sized.toString();
       checkPrice = widget.productModel!.price.toString();
       checkName = widget.productModel!.name.toString();
+      checkSized = widget.productModel!.sized.toString();
+      checkBrand = widget.productModel!.brand.toString();
       checkDescription = widget.productModel!.description.toString();
       imageUrl = widget.productModel!.image.toString();
       currentCategory = widget.productModel!.categoryId.toString();
@@ -141,6 +149,8 @@ class _EditProductWidget extends State<EditProductWidget> {
                                 'price': checkPrice,
                                 'description': checkDescription,
                                 'image': imageUrl,
+                                'brand': checkBrand,
+                                'sized': checkSized,
                                 'imagesList': [imageUrl],
                                 'categoryId': currentCategory,
                                 'productId': widget.productModel!.productId,
@@ -201,6 +211,58 @@ class _EditProductWidget extends State<EditProductWidget> {
                   maxLines: 2,
                   decoration: InputDecoration(
                     hintText: "Name",
+                    hintStyle: Theme.of(context).textTheme.bodyText1,
+                    border: const UnderlineInputBorder(borderSide: BorderSide.none),
+                    enabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
+                    focusedBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              const Text(
+                'SIZED',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14.0),
+              ),
+              const SizedBox(height: 10.0),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0), color: Colors.grey[200]),
+                child: TextField(
+                  controller: checkSizedController,
+                  cursorColor: Theme.of(context).colorScheme.secondary,
+                  onChanged: (value) => setState(() => checkSized = value),
+                  style: Theme.of(context).textTheme.bodyText1,
+                  keyboardType: TextInputType.text,
+                  maxLines: 2,
+                  decoration: InputDecoration(
+                    hintText: "Size",
+                    hintStyle: Theme.of(context).textTheme.bodyText1,
+                    border: const UnderlineInputBorder(borderSide: BorderSide.none),
+                    enabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
+                    focusedBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              const Text(
+                'BRAND',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14.0),
+              ),
+              const SizedBox(height: 10.0),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0), color: Colors.grey[200]),
+                child: TextField(
+                  controller: checkBrandController,
+                  cursorColor: Theme.of(context).colorScheme.secondary,
+                  onChanged: (value) => setState(() => checkBrand = value),
+                  style: Theme.of(context).textTheme.bodyText1,
+                  keyboardType: TextInputType.text,
+                  maxLines: 2,
+                  decoration: InputDecoration(
+                    hintText: "Brand",
                     hintStyle: Theme.of(context).textTheme.bodyText1,
                     border: const UnderlineInputBorder(borderSide: BorderSide.none),
                     enabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),

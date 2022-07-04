@@ -24,12 +24,12 @@ class ProductModel {
     image = map['image'];
     description = map['description'];
     color = Colors.red;
-    sized = '';
+    brand = map['brand'];
+    sized = map['sized'];
     price = map['price'];
-    brand =  '';
-    productId = map['productId']??'';
-    categoryId = map['categoryId']??'';
-    imagesList = getImageList(map['imagesList'] == null ? []: map['imagesList'].toList());
+    productId = map['productId'] ?? '';
+    categoryId = map['categoryId'] ?? '';
+    imagesList = getImageList(map['imagesList'] == null ? [] : map['imagesList'].toList());
   }
   toJson() {
     return {
@@ -48,6 +48,6 @@ class ProductModel {
 
 List<String> getImageList(List list) {
   List<String> temp = [];
- list.map((e) => temp.add(e.toString())).toList();
+  list.map((e) => temp.add(e.toString())).toList();
   return temp;
 }

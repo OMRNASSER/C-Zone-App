@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/core/services/database/cart_database_helper.dart';
 import 'package:untitled/core/view_model/commun_select_model.dart';
 import 'package:untitled/view/Widget/custom_Button.dart';
 
@@ -90,11 +91,10 @@ class _PasswordResetWidget extends State<CheckoutViewWidget> {
                         Expanded(
                           child: CustomButton(
                             onPressed: () {
-                             steps++;
+                              steps++;
                               tabList.map((e) => e.selected = false).toList();
                               tabList.elementAt(2).selected = true;
                               setState(() {});
-                  
                             },
                             color: Colors.green,
                             txt: "Next",
@@ -167,6 +167,8 @@ class _PasswordResetWidget extends State<CheckoutViewWidget> {
                             Expanded(
                               child: CustomButton(
                                 onPressed: () {
+                                  var dbHelper = CartDataBaseHelper.db;
+                                  dbHelper.deleteAll();
                                   Navigator.of(context).pop();
                                 },
                                 color: Colors.green,

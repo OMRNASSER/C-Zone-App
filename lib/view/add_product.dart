@@ -18,15 +18,19 @@ class _AddProductWidget extends State<AddProductWidget> {
   final CollectionReference _productCollectionsRef = FirebaseFirestore.instance.collection('Products');
   firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
   TextEditingController checkDescriptionController = TextEditingController();
+  TextEditingController checkBrandController = TextEditingController();
+  TextEditingController checkSizedController = TextEditingController();
   TextEditingController checkPriceController = TextEditingController();
   TextEditingController checkNameController = TextEditingController();
   String checkDescription = "";
+  String currentCategory = '';
+  String checkBrand = "";
   bool isLoading = false;
   String checkPrice = "";
+  String checkSized = "";
   String checkName = "";
-  File? checkPicture;
   String imageUrl = '';
-  String currentCategory = '';
+  File? checkPicture;
 
   void _showPicker(context) {
     showModalBottomSheet(
@@ -120,12 +124,14 @@ class _AddProductWidget extends State<AddProductWidget> {
                           : () {
                               String timeStamp = DateTime.now().millisecondsSinceEpoch.toString();
                               setState(() => isLoading = !isLoading);
-                             
+
                               _productCollectionsRef.doc(timeStamp).set({
                                 'name': checkName,
                                 'price': checkPrice,
                                 'description': checkDescription,
                                 'image': imageUrl,
+                                'brand': checkBrand,
+                                'sized': checkSized,
                                 'imagesList': [imageUrl],
                                 'categoryId': currentCategory,
                                 'productId': timeStamp,
@@ -200,6 +206,58 @@ class _AddProductWidget extends State<AddProductWidget> {
                   maxLines: 2,
                   decoration: InputDecoration(
                     hintText: "Name",
+                    hintStyle: Theme.of(context).textTheme.bodyText1,
+                    border: const UnderlineInputBorder(borderSide: BorderSide.none),
+                    enabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
+                    focusedBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              const Text(
+                'SIZED',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14.0),
+              ),
+              const SizedBox(height: 10.0),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0), color: Colors.grey[200]),
+                child: TextField(
+                  controller: checkSizedController,
+                  cursorColor: Theme.of(context).colorScheme.secondary,
+                  onChanged: (value) => setState(() => checkSized = value),
+                  style: Theme.of(context).textTheme.bodyText1,
+                  keyboardType: TextInputType.text,
+                  maxLines: 2,
+                  decoration: InputDecoration(
+                    hintText: "Size",
+                    hintStyle: Theme.of(context).textTheme.bodyText1,
+                    border: const UnderlineInputBorder(borderSide: BorderSide.none),
+                    enabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
+                    focusedBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              const Text(
+                'BRAND',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14.0),
+              ),
+              const SizedBox(height: 10.0),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0), color: Colors.grey[200]),
+                child: TextField(
+                  controller: checkBrandController,
+                  cursorColor: Theme.of(context).colorScheme.secondary,
+                  onChanged: (value) => setState(() => checkBrand = value),
+                  style: Theme.of(context).textTheme.bodyText1,
+                  keyboardType: TextInputType.text,
+                  maxLines: 2,
+                  decoration: InputDecoration(
+                    hintText: "Brand",
                     hintStyle: Theme.of(context).textTheme.bodyText1,
                     border: const UnderlineInputBorder(borderSide: BorderSide.none),
                     enabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
